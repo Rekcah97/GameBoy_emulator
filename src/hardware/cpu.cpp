@@ -1,5 +1,8 @@
 #include "../headers/cpu.h"
 #include <cstdint>
+#include <iostream>
+
+using namespace std;
 
 uint16_t cpu::get_AF(){
     return (A << 8) | (F & 0xF0);
@@ -10,7 +13,7 @@ uint16_t cpu::get_BC(){
 }
 
 uint16_t cpu::get_DE(){
-    return (D <<8 ) | E;
+    return (D << 8) | E;
 }
 
 uint16_t cpu::get_HL(){
@@ -38,11 +41,25 @@ void cpu::set_HL(uint16_t value){
 }
 
 void cpu::reset(){
-    set_AF(0x0180);
+    set_AF(0x01B0);
     set_BC(0x0013);
     set_DE(0x00D8);
     set_HL(0x014D);
 
     PC = 0x0100;
     SP = 0xFFFE;
+}
+
+void cpu::Register_status(){
+    cout << "AF : 0x" << hex << get_AF() << endl;
+    cout << "BC : 0x" << hex << get_BC() << endl; 
+    cout << "DE : 0x" << hex << get_DE() << endl;
+    cout << "HL : 0x" << hex << get_HL() << endl;
+    cout << "SP : 0x" << hex << SP << endl;
+    cout << "PC : 0x" << hex << PC << endl;
+
+    cout << "Zero flag (z) : " << ((F & 0x80) >> 7) << endl;
+    cout << "Subtraction Flag (n) : " << ((F & 0x40) >> 6) << endl;
+    cout << "Half carry Flag (h) : " << ((F & 0x20) >> 5) << endl;
+    cout << "Carry Flag (c) : " << ((F & 0x10) >> 4) << endl;
 }

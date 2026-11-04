@@ -25,12 +25,14 @@ class cpu{
     void set_DE(uint16_t value);
     void set_HL(uint16_t value);
 
-
-
     void reset();
+
+    void Register_status();
 
     cpu(){
         reset();
+        Register_status();
+
     }
     //TO_DO instructions and interuppt1
 
