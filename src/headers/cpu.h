@@ -31,7 +31,7 @@ class cpu{
 
     cpu(){
         reset();
-        Register_status();
+
 
     }
     //TO_DO instructions and interuppt1
