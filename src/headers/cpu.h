@@ -1,0 +1,37 @@
+#pragma once
+
+#include <cstdint>
+
+class cpu{
+    private:
+    uint8_t A; //Accumulator
+    uint8_t F; // flag
+    uint8_t B, C , D, E, H , L;   //GPR
+
+    uint16_t SP; //Stack pointer
+    uint16_t PC; //Program Counter
+
+    uint8_t opcode;
+
+    public:
+
+    uint16_t get_AF();
+    uint16_t get_BC();
+    uint16_t get_DE();
+    uint16_t get_HL();
+
+    void set_AF(uint16_t value);
+    void set_BC(uint16_t value);
+    void set_DE(uint16_t value);
+    void set_HL(uint16_t value);
+
+
+
+    void reset();
+
+    cpu(){
+        reset();
+    }
+    //TO_DO instructions and interuppt1
+
+};
