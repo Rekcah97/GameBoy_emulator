@@ -23,7 +23,7 @@ void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     }
 }
 
-void Instruction::LD_nn_n(cpu& cpu){
+void Instruction::LD_r8_i8(cpu& cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     uint8_t n = cpu.fetch();
 
@@ -31,7 +31,7 @@ void Instruction::LD_nn_n(cpu& cpu){
 }
 
 
-void Instruction::LD_r1_r2(cpu &cpu){
+void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);
     uint8_t value = 0x00;
