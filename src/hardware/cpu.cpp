@@ -63,3 +63,8 @@ void cpu::Register_status(){
     cout << "Half carry Flag (h) : " << ((F & 0x20) >> 5) << endl;
     cout << "Carry Flag (c) : " << ((F & 0x10) >> 4) << endl;
 }
+
+void cpu::fetch(){
+    uint8_t data = mem.read(PC);
+    PC++;
+}

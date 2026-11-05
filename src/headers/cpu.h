@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "bus.h"
 
 class cpu{
     private:
@@ -11,7 +12,11 @@ class cpu{
     uint16_t SP; //Stack pointer
     uint16_t PC; //Program Counter
 
+    bus mem; //RAM and bus
+
     uint8_t opcode;
+
+    uint8_t fetch();
 
     public:
 
