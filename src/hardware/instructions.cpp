@@ -87,7 +87,17 @@ void Instruction::INC_r16(cpu &cpu){
         case 2: cpu.set_HL(cpu.get_HL() + 0x0001); break;
         case 3: cpu.SP++; break;
         default: break;
-    
+    }
+}
+
+void Instruction::DRC_r16(cpu &cpu){
+    int oprnd = (cpu.opcode & 0x30) >> 4;
+        switch (oprnd) {
+        case 0: cpu.set_BC(cpu.get_BC() - 0x0001); break;
+        case 1: cpu.set_DE(cpu.get_DE() - 0x0001); break;
+        case 2: cpu.set_HL(cpu.get_HL() - 0x0001); break;
+        case 3: cpu.SP--; break;
+        default: break;
     }
 }
 
