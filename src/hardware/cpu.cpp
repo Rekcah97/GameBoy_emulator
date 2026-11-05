@@ -76,3 +76,11 @@ uint16_t cpu::fetch16(){
     uint16_t data = (hi << 8) | lo;
     return data;
 }
+
+void cpu::set_flags(uint8_t mask, bool set){
+    if(set){
+        F = F | mask;
+    }else{
+        F = F & ~mask;
+    }
+}

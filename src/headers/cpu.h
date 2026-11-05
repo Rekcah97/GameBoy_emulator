@@ -19,6 +19,13 @@ class cpu{
     uint8_t fetch();
     uint16_t fetch16();
 
+    const uint8_t z_flag = 0x80;
+    const uint8_t n_flag = 0x40;
+    const uint8_t h_flag = 0x20;
+    const uint8_t c_flag = 0x10;
+    
+    void set_flags(uint8_t mask,bool set);
+
 
     public:
 
