@@ -5,6 +5,25 @@
 #include <cstdint>
 
 
+void Instruction::loadRegisterPair(cpu &cpu, int dst, uint16_t value){
+    switch (dst) {
+        case 0: cpu.set_BC(value); break;
+        case 1: cpu.set_DE(value); break;
+        case 2: cpu.set_HL(value); break;
+        case 3: cpu.SP = value; break;
+        default: break;
+    }
+}
+
+void Instruction::LD_r16_i16(cpu &cpu){
+    uint8_t dst = (cpu.opcode & 0x30) >> 4;
+    uint8_t i_1 = cpu.fetch();
+    uint8_t i_2 = cpu.fetch();
+
+    uint16_t value = (i_2 << 8) | i_1 ;
+
+    loadRegisterPair(cpu, dst, value);
+}
 
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     switch (dst) {
