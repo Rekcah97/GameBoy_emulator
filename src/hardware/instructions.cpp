@@ -67,6 +67,21 @@ void Instruction::LD_a_r16m(cpu &cpu){
     }
 }
 
+void Instruction::LD_i16_SP(cpu &cpu){
+    uint8_t i_1 = cpu.fetch();
+    uint8_t i_2 = cpu.fetch();
+
+    uint16_t addr = (i_2 << 8) | i_1;
+
+    uint16_t sp = cpu.SP;
+
+    uint8_t lo = sp & 0x00FF ;
+    uint16_t ho = ((sp & 0xFF00) >> 8);
+
+    cpu.mem.write(addr, lo);
+    cpu.mem.write(addr + 0x0001, ho);
+}
+
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     switch (dst) {
         case 0: cpu.B = value; break;
