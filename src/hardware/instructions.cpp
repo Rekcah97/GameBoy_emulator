@@ -25,6 +25,27 @@ void Instruction::LD_r16_i16(cpu &cpu){
     loadRegisterPair(cpu, dst, value);
 }
 
+void Instruction::LD_r16m_a(cpu &cpu){
+    uint8_t dst = (cpu.opcode & 0x30) >> 4;
+
+    switch (dst) {
+        case 0: cpu.mem.write(cpu.get_BC(), cpu.A); break;
+        case 1: cpu.mem.write(cpu.get_DE(), cpu.A); break;
+        case 2: {
+            uint16_t hl = cpu.get_HL();
+            cpu.mem.write(hl, cpu.A); 
+            cpu.set_HL(hl + 0x0001); 
+            break;
+        }
+        case 3: {
+            uint16_t hl = cpu.get_HL();
+            cpu.mem.write(hl, cpu.A); 
+            cpu.set_HL(hl - 0x0001); 
+            break;}
+        default: break;
+    }
+}
+
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     switch (dst) {
         case 0: cpu.B = value; break;
