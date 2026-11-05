@@ -64,7 +64,8 @@ void cpu::Register_status(){
     cout << "Carry Flag (c) : " << ((F & 0x10) >> 4) << endl;
 }
 
-void cpu::fetch(){
+uint8_t cpu::fetch(){
     uint8_t data = mem.read(PC);
     PC++;
+    return data;
 }

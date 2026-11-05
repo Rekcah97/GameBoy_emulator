@@ -18,6 +18,7 @@ class cpu{
 
     uint8_t fetch();
 
+
     public:
 
     uint16_t get_AF();
@@ -39,6 +40,8 @@ class cpu{
 
 
     }
+
+    friend class Instruction;
     //TO_DO instructions and interuppt1
 
 };
