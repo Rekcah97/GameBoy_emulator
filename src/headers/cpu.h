@@ -17,6 +17,7 @@ class cpu{
     uint8_t opcode;
 
     uint8_t fetch();
+    uint16_t fetch16();
 
 
     public:

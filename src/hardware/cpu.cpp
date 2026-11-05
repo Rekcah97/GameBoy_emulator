@@ -69,3 +69,10 @@ uint8_t cpu::fetch(){
     PC++;
     return data;
 }
+
+uint16_t cpu::fetch16(){
+    uint8_t lo = fetch();
+    uint8_t hi = fetch();
+    uint16_t data = (hi << 8) | lo;
+    return data;
+}
