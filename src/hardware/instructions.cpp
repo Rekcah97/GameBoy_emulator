@@ -46,6 +46,27 @@ void Instruction::LD_r16m_a(cpu &cpu){
     }
 }
 
+void Instruction::LD_a_r16m(cpu &cpu){
+    uint8_t src = (cpu.opcode & 0x30) >> 4;
+
+        switch (src) {
+        case 0: cpu.A = cpu.mem.read(cpu.get_BC()) ; break;
+        case 1: cpu.A = cpu.mem.read(cpu.get_DE()); break;
+        case 2: {
+            uint16_t hl = cpu.get_HL();
+            cpu.A = cpu.mem.read(hl);
+            cpu.set_HL(hl + 0x0001); 
+            break;
+        }
+        case 3: {
+            uint16_t hl = cpu.get_HL();
+            cpu.A = cpu.mem.read(hl);
+            cpu.set_HL(hl - 0x0001); 
+            break;}
+        default: break;
+    }
+}
+
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     switch (dst) {
         case 0: cpu.B = value; break;
