@@ -117,22 +117,13 @@ void Instruction::ADD_hl_r16(cpu &cpu){
     }
 
     cpu.set_HL(hl + operand);
-
     cpu.set_flags(cpu.n_flag, false);
 
     sum = hl + operand;
-    if(sum > 0xFFFF){
-        cpu.set_flags(cpu.c_flag, true);
-    } else {
-        cpu.set_flags(cpu.c_flag, false);
-    }
-
+    cpu.set_flags(cpu.c_flag, sum > 0xFFFF);
+    
     bool half_carry = (((hl & 0x0FFF) + (operand & 0x0FFF))) > 0x0FFF;
-    if(half_carry){
-        cpu.set_flags(cpu.h_flag, true);
-    }else{
-        cpu.set_flags(cpu.h_flag, false);
-    }
+    cpu.set_flags(cpu.h_flag, half_carry);
 }
 
 void Instruction::INC_r8(cpu &cpu){
