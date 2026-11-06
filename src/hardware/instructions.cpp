@@ -186,6 +186,35 @@ void Instruction::INC_r8(cpu &cpu){
     }
 }
 
+void Instruction::DEC_r8(cpu &cpu){
+    int oprnd = (cpu.opcode & 0x38) >> 3;
+    uint8_t operand;
+    uint8_t result;
+
+
+
+    switch (oprnd) {
+        case 0: operand = cpu.B; break;
+        case 1: operand = cpu.C; break;
+        case 2: operand = cpu.D; break;
+        case 3: operand = cpu.E; break;
+        case 4: operand = cpu.H; break;
+        case 5: operand = cpu.L; break;
+        case 6: operand = cpu.get_HL();break;
+        case 7: operand = cpu.A; break;
+        default: break;
+    }
+
+    result = operand - 1;
+
+    loadRegisterPair(cpu, oprnd, result);
+
+    cpu.set_flags(cpu.n_flag, true);
+    cpu.set_flags(cpu.z_flag, result == 0x00);
+    cpu.set_flags(cpu.h_flag, (operand & 0x0F) == 0);
+
+}
+
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
     switch (dst) {
         case 0: cpu.B = value; break;
