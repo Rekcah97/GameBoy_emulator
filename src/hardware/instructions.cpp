@@ -90,7 +90,7 @@ void Instruction::INC_r16(cpu &cpu){
     }
 }
 
-void Instruction::DRC_r16(cpu &cpu){
+void Instruction::DEC_r16(cpu &cpu){
     int oprnd = (cpu.opcode & 0x30) >> 4;
         switch (oprnd) {
         case 0: cpu.set_BC(cpu.get_BC() - 0x0001); break;

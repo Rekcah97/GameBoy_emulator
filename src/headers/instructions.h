@@ -16,7 +16,7 @@ class Instruction{
     void LD_i16_SP(cpu& cpu);
 
     void INC_r16(cpu& cpu);
-    void DRC_r16(cpu& cpu);
+    void DEC_r16(cpu& cpu);
 
     void ADD_hl_r16(cpu& cpu);
 
