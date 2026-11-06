@@ -105,7 +105,7 @@ void Instruction::ADD_hl_r16(cpu &cpu){
     int oprnd = (cpu.opcode & 0x30) >> 4;
 
     uint16_t hl = cpu.get_HL();
-    uint16_t operand;
+    uint16_t operand = 0;
     uint32_t sum;
 
     switch (oprnd) {
@@ -118,9 +118,6 @@ void Instruction::ADD_hl_r16(cpu &cpu){
 
     cpu.set_HL(hl + operand);
 
-
-
-
     cpu.set_flags(cpu.n_flag, false);
 
     sum = hl + operand;
@@ -130,15 +127,12 @@ void Instruction::ADD_hl_r16(cpu &cpu){
         cpu.set_flags(cpu.c_flag, false);
     }
 
-    bool half_carry = (((hl & 0x0F00) >> 8) + ((operand & 0x0F00) >> 8)) > 0x0F;
+    bool half_carry = (((hl & 0x0FFF) + (operand & 0x0FFF))) > 0x0FFF;
     if(half_carry){
         cpu.set_flags(cpu.h_flag, true);
     }else{
         cpu.set_flags(cpu.h_flag, false);
     }
-
-
-
 }
 
 void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
