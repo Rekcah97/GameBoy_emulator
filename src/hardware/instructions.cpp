@@ -137,58 +137,7 @@ void Instruction::ADD_hl_r16(cpu &cpu){
 
 void Instruction::INC_r8(cpu &cpu){
     int oprnd = (cpu.opcode & 0x38) >> 3;
-    uint8_t* r8;
-    uint8_t is_hl = false;
-    uint8_t isDefault = false;
-    uint8_t operand;
-
-
-
-    switch (oprnd) {
-        case 0: r8 = &cpu.B; break;
-        case 1: r8 = &cpu.C; break;
-        case 2: r8 = &cpu.D; break;
-        case 3: r8 = &cpu.E; break;
-        case 4: r8 = &cpu.H; break;
-        case 5: r8 = &cpu.L; break;
-        case 6:  is_hl = true ;break;
-        case 7: r8 = &cpu.A; break;
-        default: isDefault= true; break;
-    }
-
-    if(!isDefault){
-
-        if(!is_hl){
-            operand = *r8;
-            *r8 += 1;
-        } else {
-            operand = cpu.mem.read(cpu.get_HL());
-            cpu.mem.write(cpu.get_HL(), cpu.mem.read(cpu.get_HL()) + 1);
-        }
-
-        cpu.set_flags(cpu.n_flag, false);
-
-        if((uint8_t)(operand + 0x01) == 0x00){
-            cpu.set_flags(cpu.z_flag, true);
-        } else {
-            cpu.set_flags(cpu.z_flag, false);
-        }
-
-        bool h_flag = ((operand & 0x0F) + 0x01) > 0x0F;
-
-        if(h_flag){
-            cpu.set_flags(cpu.h_flag, true);
-        }else{
-            cpu.set_flags(cpu.h_flag, false);
-        }
-
-
-    }
-}
-
-void Instruction::DEC_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x38) >> 3;
-    uint8_t operand;
+    uint8_t operand = 0;
     uint8_t result;
 
 
@@ -200,7 +149,35 @@ void Instruction::DEC_r8(cpu &cpu){
         case 3: operand = cpu.E; break;
         case 4: operand = cpu.H; break;
         case 5: operand = cpu.L; break;
-        case 6: operand = cpu.get_HL();break;
+        case 6: operand = cpu.mem.read(cpu.get_HL()); break;
+        case 7: operand = cpu.A; break;
+        default: break;
+    }
+
+    result = operand + 1;
+    
+    loadRegister(cpu, oprnd, result);
+    
+    cpu.set_flags(cpu.n_flag, false);
+    cpu.set_flags(cpu.z_flag, result == 0);
+    cpu.set_flags(cpu.h_flag, ((operand & 0x0F) + 0x01) > 0x0F);
+}
+
+void Instruction::DEC_r8(cpu &cpu){
+    int oprnd = (cpu.opcode & 0x38) >> 3;
+    uint8_t operand = 0;
+    uint8_t result;
+
+
+
+    switch (oprnd) {
+        case 0: operand = cpu.B; break;
+        case 1: operand = cpu.C; break;
+        case 2: operand = cpu.D; break;
+        case 3: operand = cpu.E; break;
+        case 4: operand = cpu.H; break;
+        case 5: operand = cpu.L; break;
+        case 6: operand = cpu.mem.read(cpu.get_HL());break;
         case 7: operand = cpu.A; break;
         default: break;
     }
