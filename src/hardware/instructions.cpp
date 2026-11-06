@@ -220,6 +220,17 @@ void Instruction::RLCA(cpu &cpu){
 
 }
 
+void Instruction::RRCA(cpu &cpu){
+    uint8_t shift = cpu.A >> 1;
+    bool needed = cpu.A & 0x01;
+
+    cpu.A = shift | (needed << 7);
+
+    cpu.set_flags(cpu.z_flag, false);
+    cpu.set_flags(cpu.n_flag, false);
+    cpu.set_flags(cpu.h_flag,false);
+    cpu.set_flags(cpu.c_flag, needed);
+}
 
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;

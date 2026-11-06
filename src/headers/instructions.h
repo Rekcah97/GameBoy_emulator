@@ -31,6 +31,7 @@ class Instruction{
     void LD_r8_i8(cpu& cpu);
 
     void RLCA(cpu& cpu);
+    void RRCA(cpu& cpu);
 
 
     void LD_r8_r8(cpu& cpu);
