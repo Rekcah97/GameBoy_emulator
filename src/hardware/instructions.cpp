@@ -121,7 +121,7 @@ void Instruction::ADD_hl_r16(cpu &cpu){
 
     sum = hl + operand;
     cpu.set_flags(cpu.c_flag, sum > 0xFFFF);
-    
+
     bool half_carry = (((hl & 0x0FFF) + (operand & 0x0FFF))) > 0x0FFF;
     cpu.set_flags(cpu.h_flag, half_carry);
 }
@@ -205,6 +205,19 @@ void Instruction::LD_r8_i8(cpu& cpu){
     uint8_t n = cpu.fetch();
 
     loadRegister(cpu,dest,n);
+}
+
+void Instruction::RLCA(cpu &cpu){
+    uint8_t shift = cpu.A << 1;
+    bool needed =  (cpu.A << 1) & 0x100;
+
+    cpu.A = shift | needed;
+
+    cpu.set_flags(cpu.z_flag, false);
+    cpu.set_flags(cpu.n_flag, false);
+    cpu.set_flags(cpu.h_flag,false);
+    cpu.set_flags(cpu.c_flag, needed);
+
 }
 
 
