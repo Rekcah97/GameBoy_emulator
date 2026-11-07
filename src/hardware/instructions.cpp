@@ -306,6 +306,14 @@ void Instruction::SCF(cpu &cpu){
     cpu.set_flags(cpu.h_flag, 0);
 }
 
+void Instruction::CCF(cpu &cpu){
+    bool oldCarry = cpu.get_flags(cpu.c_flag);
+
+    cpu.set_flags(cpu.c_flag, !oldCarry);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+}
+
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);

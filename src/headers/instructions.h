@@ -37,6 +37,7 @@ class Instruction{
     void DAA(cpu& cpu);
     void CPL(cpu& cpu);
     void SCF(cpu& cpu);
+    void CCF(cpu& cpu);
 
 
     void LD_r8_r8(cpu& cpu);
