@@ -39,6 +39,8 @@ class Instruction{
     void SCF(cpu& cpu);
     void CCF(cpu& cpu);
 
+    void JR_i8(cpu& cpu);
+
 
     void LD_r8_r8(cpu& cpu);
 };
