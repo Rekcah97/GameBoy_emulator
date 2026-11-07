@@ -11,6 +11,7 @@ class Instruction{
     void loadRegisterPair(cpu& cpu,int dst, uint16_t value);
     void loadRegister(cpu& cpu,int dst, uint8_t value);
     bool checkCond(cpu& cpu, int cond);
+    uint8_t get_r8(cpu& cpu, int dst);
 
     void NOP(){};
     void LD_r16_i16(cpu& cpu);
@@ -45,6 +46,8 @@ class Instruction{
 
     void STOP(cpu& cpu);
 
-
     void LD_r8_r8(cpu& cpu);
+    // TO DO HLT
+
+
 };

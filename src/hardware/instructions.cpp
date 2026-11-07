@@ -350,6 +350,7 @@ void Instruction::STOP(cpu &cpu){
     NOP();
 }
 
+//for this HALT must be CAlled before this instruction
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);
@@ -371,4 +372,21 @@ void Instruction::LD_r8_r8(cpu &cpu){
     }
 
     loadRegister(cpu,dest, value);
+}
+
+uint8_t Instruction::get_r8(cpu &cpu, int dst){
+    uint8_t result = 0;
+    switch(dst){
+        case 0: result = cpu.B; break;
+        case 1: result = cpu.C; break;
+        case 2: result = cpu.D; break;
+        case 3: result = cpu.E; break;
+        case 4: result = cpu.H; break;
+        case 5: result = cpu.L; break;
+        case 6: result = cpu.mem.read(cpu.get_HL()); break;
+        case 7: result = cpu.A ; break;
+        default: break;
+    }
+
+    return result;
 }
