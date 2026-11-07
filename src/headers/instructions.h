@@ -50,6 +50,7 @@ class Instruction{
     // TO DO HLT
 
     void ADD_A_r8(cpu& cpu);
+    void ADC_A_r8(cpu& cpu);
 
 
 };
