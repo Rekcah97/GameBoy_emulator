@@ -247,6 +247,19 @@ void Instruction::RLA(cpu &cpu){
 
 }
 
+void Instruction::RRA(cpu &cpu){
+    uint8_t shift = cpu.A >> 1;
+    bool oldCarry = cpu.get_flags(cpu.c_flag);
+    bool oldLSB = (cpu.A & 0x01);
+
+    cpu.A = shift | (oldCarry << 7);
+
+    cpu.set_flags(cpu.z_flag, 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag, oldLSB);
+}
+
 void Instruction::DAA(cpu &cpu){
     uint8_t adjustment = 0x00;
     uint8_t result = cpu.A;
@@ -279,17 +292,11 @@ void Instruction::DAA(cpu &cpu){
     cpu.set_flags(cpu.h_flag, 0);
 }
 
-void Instruction::RRA(cpu &cpu){
-    uint8_t shift = cpu.A >> 1;
-    bool oldCarry = cpu.get_flags(cpu.c_flag);
-    bool oldLSB = (cpu.A & 0x01);
+void Instruction::CPL(cpu &cpu){
+    cpu.A = ~cpu.A;
 
-    cpu.A = shift | (oldCarry << 7);
-
-    cpu.set_flags(cpu.z_flag, 0);
-    cpu.set_flags(cpu.n_flag, 0);
-    cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag, oldLSB);
+    cpu.set_flags( cpu.n_flag, 1);
+    cpu.set_flags(cpu.h_flag, 1);
 }
 
 void Instruction::LD_r8_r8(cpu &cpu){
