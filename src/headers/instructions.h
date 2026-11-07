@@ -49,5 +49,7 @@ class Instruction{
     void LD_r8_r8(cpu& cpu);
     // TO DO HLT
 
+    void ADD_A_r8(cpu& cpu);
+
 
 };

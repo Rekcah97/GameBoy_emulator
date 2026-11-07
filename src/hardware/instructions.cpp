@@ -390,3 +390,18 @@ uint8_t Instruction::get_r8(cpu &cpu, int dst){
 
     return result;
 }
+
+void Instruction::ADD_A_r8(cpu &cpu){
+    int oprnd = (cpu.opcode & 0x07) ;
+    uint8_t r8 = get_r8(cpu, oprnd);
+    uint8_t oldA = cpu.A;
+    uint8_t result ;
+
+    result = r8 + oldA;
+    cpu.A = result;
+
+    cpu.set_flags(cpu.z_flag, result == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, ((oldA & 0x0F) + (r8 & 0x0F)) > 0x0F);
+    cpu.set_flags(cpu.c_flag, ((oldA + r8)) > 0xFF);
+}
