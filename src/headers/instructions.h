@@ -52,6 +52,7 @@ class Instruction{
     void ADD_A_r8(cpu& cpu);
     void ADC_A_r8(cpu& cpu);
     void SUB_A_r8(cpu& cpu);
+    void SBC_A_r8(cpu& cpu);
 
 
 };
