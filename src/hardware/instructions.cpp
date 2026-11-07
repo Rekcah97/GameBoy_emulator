@@ -321,6 +321,30 @@ void Instruction::JR_i8(cpu &cpu){
 
 }
 
+bool Instruction::checkCond(cpu &cpu, int cond){
+
+    bool result = 0; 
+        switch (cond) {
+        case 0:  if(!cpu.get_flags(cpu.z_flag)) result = 1 ; break;
+        case 1:  if(cpu.get_flags(cpu.z_flag)) result = 1; break;
+        case 2: if(!cpu.get_flags(cpu.c_flag))  result = 1; break;
+        case 3: if(cpu.get_flags(cpu.c_flag)) result = 1; break;
+        default: break;
+    }
+
+    return result;
+}
+
+void Instruction::JR_cond_i8(cpu &cpu){
+    uint8_t cond = (cpu.opcode & 0x18) >> 3;
+    int8_t offset = cpu.fetch();
+
+    if(checkCond(cpu, cond)){
+        cpu.PC += offset;
+    }
+
+}
+
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);

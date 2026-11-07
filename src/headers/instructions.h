@@ -10,6 +10,7 @@ class Instruction{
     //helper
     void loadRegisterPair(cpu& cpu,int dst, uint16_t value);
     void loadRegister(cpu& cpu,int dst, uint8_t value);
+    bool checkCond(cpu& cpu, int cond);
 
     void NOP(){};
     void LD_r16_i16(cpu& cpu);
@@ -40,6 +41,7 @@ class Instruction{
     void CCF(cpu& cpu);
 
     void JR_i8(cpu& cpu);
+    void JR_cond_i8(cpu& cpu);
 
 
     void LD_r8_r8(cpu& cpu);
