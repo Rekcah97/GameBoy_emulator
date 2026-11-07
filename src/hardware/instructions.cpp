@@ -232,6 +232,21 @@ void Instruction::RRCA(cpu &cpu){
     cpu.set_flags(cpu.c_flag, needed);
 }
 
+void Instruction::RLA(cpu &cpu){
+    uint8_t shift = cpu.A << 1;
+    bool needed = cpu.get_flags(cpu.c_flag);
+    bool oldMSB = (cpu.A & 0x80) != 0;
+
+
+    cpu.A = shift | (needed);
+
+    cpu.set_flags(cpu.z_flag, 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag, oldMSB);
+
+}
+
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);
