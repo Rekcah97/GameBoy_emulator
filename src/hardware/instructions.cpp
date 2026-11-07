@@ -247,6 +247,38 @@ void Instruction::RLA(cpu &cpu){
 
 }
 
+void Instruction::DAA(cpu &cpu){
+    uint8_t adjustment = 0x00;
+    uint8_t result = cpu.A;
+
+    bool half_flag = cpu.get_flags(cpu.h_flag);
+    bool carry_flag = cpu.get_flags(cpu.c_flag);
+
+    if(cpu.get_flags(cpu.n_flag)){
+        if(half_flag){
+            adjustment += 0x06;
+        }
+        if(carry_flag){
+            adjustment += 0x60;
+        }
+        result -= adjustment;
+    }else{
+        if(half_flag || ((cpu.A & 0x0F) > 0x09)){
+            adjustment += 0x06;
+        }
+        if(carry_flag || (cpu.A > 0x99)){
+            adjustment += 0x60;
+            cpu.set_flags(cpu.c_flag, 1);
+        }
+        result += adjustment;
+    }
+
+    cpu.A = result;
+
+    cpu.set_flags(cpu.z_flag, (result == 0));
+    cpu.set_flags(cpu.h_flag, 0);
+}
+
 void Instruction::RRA(cpu &cpu){
     uint8_t shift = cpu.A >> 1;
     bool oldCarry = cpu.get_flags(cpu.c_flag);
