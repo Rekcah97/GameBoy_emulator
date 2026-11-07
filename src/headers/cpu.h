@@ -25,6 +25,7 @@ class cpu{
     const uint8_t c_flag = 0x10;
     
     void set_flags(uint8_t mask,bool set);
+    bool get_flags(uint8_t mask);
 
 
     public:

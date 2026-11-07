@@ -32,6 +32,7 @@ class Instruction{
 
     void RLCA(cpu& cpu);
     void RRCA(cpu& cpu);
+    void RLA(cpu& cpu);
 
 
     void LD_r8_r8(cpu& cpu);

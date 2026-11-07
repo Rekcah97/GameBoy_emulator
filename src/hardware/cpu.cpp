@@ -84,3 +84,7 @@ void cpu::set_flags(uint8_t mask, bool set){
         F = F & ~mask;
     }
 }
+
+bool cpu::get_flags(uint8_t mask){
+    return (F & mask) != 0;
+}
