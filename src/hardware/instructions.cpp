@@ -345,6 +345,11 @@ void Instruction::JR_cond_i8(cpu &cpu){
 
 }
 
+void Instruction::STOP(cpu &cpu){
+    cpu.fetch();
+    NOP();
+}
+
 void Instruction::LD_r8_r8(cpu &cpu){
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);

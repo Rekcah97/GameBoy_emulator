@@ -43,6 +43,8 @@ class Instruction{
     void JR_i8(cpu& cpu);
     void JR_cond_i8(cpu& cpu);
 
+    void STOP(cpu& cpu);
+
 
     void LD_r8_r8(cpu& cpu);
 };
