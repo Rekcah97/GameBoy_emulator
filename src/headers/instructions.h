@@ -78,6 +78,7 @@ class Instruction{
     void JP_hl(cpu& cpu);
 
     void CALL_COND_i16(cpu& cpu);
+    void CALL_i16(cpu& cpu);
 
 
 };

@@ -684,3 +684,9 @@ void Instruction::CALL_COND_i16(cpu &cpu){
         cpu.PC = i16;
     }
 }
+
+void Instruction::CALL_i16(cpu &cpu){
+    uint16_t i16 = cpu.fetch16();   
+    push16(cpu, cpu.PC);
+    cpu.PC = i16;
+}
