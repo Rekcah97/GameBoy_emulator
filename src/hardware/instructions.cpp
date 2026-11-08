@@ -740,3 +740,8 @@ void Instruction::PUSH_r16stk(cpu &cpu){
 void Instruction::LDH_C_A(cpu &cpu){
     cpu.mem.write((0xFF00 + cpu.C), cpu.A);
 }
+
+void Instruction::LDH_i8_A(cpu &cpu){
+    uint8_t i8 = cpu.fetch();
+    cpu.mem.write((0xFF00 + i8), cpu.A);
+}

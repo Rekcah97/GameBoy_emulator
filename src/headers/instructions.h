@@ -85,5 +85,6 @@ class Instruction{
     void PUSH_r16stk(cpu& cpu);
 
     void LDH_C_A(cpu& cpu);
+    void LDH_i8_A(cpu& cpu);
 
 };
