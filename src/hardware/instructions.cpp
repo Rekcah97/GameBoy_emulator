@@ -624,3 +624,23 @@ void Instruction::CP_A_i8(cpu &cpu){
     cpu.set_flags(cpu.h_flag, ((i8 & 0x0F) > (oldA & 0x0F) ));
     cpu.set_flags(cpu.c_flag, (i8 > oldA));       
 }
+
+uint16_t Instruction::pop16(cpu &cpu){
+    uint16_t location = 0;
+
+    location = cpu.mem.read(cpu.SP);
+    cpu.SP++;
+    location = location | (cpu.mem.read(cpu.SP) << 8 );
+    cpu.SP++;
+
+    return location;
+    
+}
+
+void Instruction::RET_COND(cpu &cpu){
+    int cond = (cpu.opcode & 0x18) >> 3;
+
+    if(checkCond(cpu, cond)){
+        cpu.PC = pop16(cpu);
+    }
+}

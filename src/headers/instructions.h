@@ -12,6 +12,7 @@ class Instruction{
     void loadRegister(cpu& cpu,int dst, uint8_t value);
     bool checkCond(cpu& cpu, int cond);
     uint8_t get_r8(cpu& cpu, int dst);
+    uint16_t pop16(cpu& cpu);
 
     void NOP(){};
     void LD_r16_i16(cpu& cpu);
@@ -66,6 +67,8 @@ class Instruction{
     void XOR_A_i8(cpu& cpu);
     void OR_A_i8(cpu& cpu);
     void CP_A_i8(cpu& cpu);
+
+    void RET_COND(cpu& cpu);
 
 
 };
