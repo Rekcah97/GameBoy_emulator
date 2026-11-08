@@ -648,3 +648,12 @@ void Instruction::RET_COND(cpu &cpu){
 void Instruction::RET(cpu &cpu){
     cpu.PC = pop16(cpu);
 }
+
+void Instruction::JP_COND_i16(cpu &cpu){
+    int cond = (cpu.opcode & 0x18) >> 3;
+    uint16_t i16 = cpu.fetch16();
+
+    if(checkCond(cpu,cond)){
+        cpu.PC = i16;
+    }
+}

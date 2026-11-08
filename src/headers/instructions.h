@@ -70,6 +70,9 @@ class Instruction{
 
     void RET_COND(cpu& cpu);
     void RET(cpu& cpu);
+    // TO-DO RETI
+
+    void JP_COND_i16(cpu& cpu);
 
 
 };
