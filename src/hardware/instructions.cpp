@@ -790,3 +790,7 @@ void Instruction::LD_hl_SPni8(cpu &cpu){
     cpu.set_flags(cpu.h_flag, ((oldSP & 0x000F) + (rawi8 & 0x000F)) > 0xF);
     cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF );  
 }
+
+void Instruction::LD_SP_hl(cpu &cpu){
+    cpu.SP = cpu.get_HL();
+}
