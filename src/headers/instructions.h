@@ -79,6 +79,7 @@ class Instruction{
 
     void CALL_COND_i16(cpu& cpu);
     void CALL_i16(cpu& cpu);
+    void RST_TGT3(cpu& cpu);
 
 
 };

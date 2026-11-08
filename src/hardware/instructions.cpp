@@ -690,3 +690,22 @@ void Instruction::CALL_i16(cpu &cpu){
     push16(cpu, cpu.PC);
     cpu.PC = i16;
 }
+
+void Instruction::RST_TGT3(cpu &cpu){
+    uint8_t target = (cpu.opcode & 0x38) >> 3;
+    uint8_t location = 0;
+    switch (target) {
+        case 0: location = 0x00; break;
+        case 1: location = 0x08; break;
+        case 2: location = 0x10; break;
+        case 3: location = 0x18; break;
+        case 4: location = 0x20; break;
+        case 5: location = 0x28; break;
+        case 6: location = 0x30; break;
+        case 7: location = 0x38; break;
+        default: break;
+    
+    }
+    push16(cpu, cpu.PC);
+    cpu.PC = 0x000 + location;
+}
