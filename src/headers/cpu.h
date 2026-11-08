@@ -27,6 +27,14 @@ class cpu{
     void set_flags(uint8_t mask,bool set);
     bool get_flags(uint8_t mask);
 
+    //Interrupt
+
+    bool IME; // Interrupt master Enable
+    uint8_t get_IE();
+    uint8_t get_IF();
+    void set_IE(uint8_t value);
+    void set_IF(uint8_t value);
+
 
     public:
 

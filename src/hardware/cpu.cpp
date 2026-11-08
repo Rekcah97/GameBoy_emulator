@@ -48,6 +48,9 @@ void cpu::reset(){
 
     PC = 0x0100;
     SP = 0xFFFE;
+    IME = 0;
+    set_IF(0xE1);
+    set_IE(0x00);
 }
 
 void cpu::Register_status(){
@@ -87,4 +90,20 @@ void cpu::set_flags(uint8_t mask, bool set){
 
 bool cpu::get_flags(uint8_t mask){
     return (F & mask) != 0;
+}
+
+uint8_t cpu::get_IE(){
+   return mem.read(0xFFFF);
+}
+
+uint8_t cpu::get_IF(){
+    return mem.read(0xFF0F);
+}
+
+void cpu::set_IE(uint8_t value){
+    mem.write(0xFFFF, value);
+}
+
+void cpu::set_IF(uint8_t value){
+    mem.write(0xFF0F, value);  
 }
