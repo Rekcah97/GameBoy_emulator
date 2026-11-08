@@ -722,3 +722,17 @@ void Instruction::POP_r16stk(cpu &cpu){
         default: break;
     }
 }
+
+void Instruction::PUSH_r16stk(cpu &cpu){
+    int r16 = (cpu.opcode & 0x30) >> 4;
+    uint16_t value = 0;
+
+    switch (r16) {
+        case 0: value = cpu.get_BC(); break;
+        case 1: value = cpu.get_DE(); break;
+        case 2: value = cpu.get_HL(); break;
+        case 3: value = cpu.get_AF(); break;
+        default: break;
+    }
+    push16(cpu, value);
+}

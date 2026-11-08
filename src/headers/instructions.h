@@ -82,5 +82,6 @@ class Instruction{
     void RST_TGT3(cpu& cpu);
 
     void POP_r16stk(cpu& cpu);
+    void PUSH_r16stk(cpu& cpu);
 
 };
