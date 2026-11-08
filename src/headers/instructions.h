@@ -59,6 +59,7 @@ class Instruction{
     void CP_A_r8(cpu& cpu);
 
     void ADD_A_i8(cpu& cpu);
+    void ADC_A_i8(cpu& cpu);
 
 
 };
