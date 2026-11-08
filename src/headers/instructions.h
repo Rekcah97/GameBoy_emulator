@@ -74,6 +74,7 @@ class Instruction{
 
     void JP_COND_i16(cpu& cpu);
     void JP_i16(cpu& cpu);
+    void JP_hl(cpu& cpu);
 
 
 };
