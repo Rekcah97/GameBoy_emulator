@@ -750,3 +750,7 @@ void Instruction::LD_i16_A(cpu &cpu){
     uint16_t i16 = cpu.fetch16();
     cpu.mem.write(i16,cpu.A);
 }
+
+void Instruction::LDH_A_C(cpu &cpu){
+    cpu.A = cpu.mem.read((0xFF00 + cpu.C));
+}
