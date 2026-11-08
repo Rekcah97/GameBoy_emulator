@@ -92,5 +92,6 @@ class Instruction{
     void LD_A_i16(cpu& cpu);
 
     void ADD_SP_i8(cpu& cpu);
+    void LD_hl_SPni8(cpu& cpu);
 
 };

@@ -777,3 +777,16 @@ void Instruction::ADD_SP_i8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF );
 
 }
+
+void Instruction::LD_hl_SPni8(cpu &cpu){
+    uint8_t rawi8 = cpu.fetch();
+    int8_t i8 = static_cast<int8_t>(rawi8);
+    uint16_t oldSP = cpu.SP;
+
+    cpu.set_HL((oldSP + i8));
+
+    cpu.set_flags(cpu.z_flag, 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, ((oldSP & 0x000F) + (rawi8 & 0x000F)) > 0xF);
+    cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF );  
+}
