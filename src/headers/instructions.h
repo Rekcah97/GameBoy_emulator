@@ -69,6 +69,7 @@ class Instruction{
     void CP_A_i8(cpu& cpu);
 
     void RET_COND(cpu& cpu);
+    void RET(cpu& cpu);
 
 
 };

@@ -644,3 +644,7 @@ void Instruction::RET_COND(cpu &cpu){
         cpu.PC = pop16(cpu);
     }
 }
+
+void Instruction::RET(cpu &cpu){
+    cpu.PC = pop16(cpu);
+}
