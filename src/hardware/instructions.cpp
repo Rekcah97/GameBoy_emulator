@@ -679,8 +679,6 @@ void Instruction::push16(cpu &cpu, uint16_t value){
 void Instruction::CALL_COND_i16(cpu &cpu){
     int cond = (cpu.opcode & 0x18) >> 3;
     uint16_t i16 = cpu.fetch16();
-    uint8_t pc_lo = 0;
-    uint8_t pc_hi = 0;
     if(checkCond(cpu, cond)){
         push16(cpu, cpu.PC);
         cpu.PC = i16;
