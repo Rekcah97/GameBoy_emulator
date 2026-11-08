@@ -709,3 +709,16 @@ void Instruction::RST_TGT3(cpu &cpu){
     push16(cpu, cpu.PC);
     cpu.PC = 0x000 + location;
 }
+
+void Instruction::POP_r16stk(cpu &cpu){
+    int r16 = (cpu.opcode & 0x30) >> 4;
+    uint16_t value = pop16(cpu);
+
+    switch (r16) {
+        case 0: cpu.set_BC(value); break;
+        case 1: cpu.set_DE(value); break;
+        case 2: cpu.set_HL(value); break;
+        case 3: cpu.set_AF(value); break;
+        default: break;
+    }
+}
