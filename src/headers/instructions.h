@@ -60,6 +60,7 @@ class Instruction{
 
     void ADD_A_i8(cpu& cpu);
     void ADC_A_i8(cpu& cpu);
+    void SUB_A_i8(cpu& cpu);
 
 
 };
