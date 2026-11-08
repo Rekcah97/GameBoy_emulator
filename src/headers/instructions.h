@@ -65,6 +65,7 @@ class Instruction{
     void AND_A_i8(cpu& cpu);
     void XOR_A_i8(cpu& cpu);
     void OR_A_i8(cpu& cpu);
+    void CP_A_i8(cpu& cpu);
 
 
 };
