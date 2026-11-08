@@ -736,3 +736,7 @@ void Instruction::PUSH_r16stk(cpu &cpu){
     }
     push16(cpu, value);
 }
+
+void Instruction::LDH_C_A(cpu &cpu){
+    cpu.mem.write((0xFF00 + cpu.C), cpu.A);
+}
