@@ -54,6 +54,7 @@ class Instruction{
     void SUB_A_r8(cpu& cpu);
     void SBC_A_r8(cpu& cpu);
     void AND_A_r8(cpu& cpu);
+    void XOR_A_r8(cpu& cpu);
 
 
 };
