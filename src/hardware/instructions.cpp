@@ -657,3 +657,7 @@ void Instruction::JP_COND_i16(cpu &cpu){
         cpu.PC = i16;
     }
 }
+
+void Instruction::JP_i16(cpu &cpu){
+    cpu.PC =cpu.fetch16();
+}
