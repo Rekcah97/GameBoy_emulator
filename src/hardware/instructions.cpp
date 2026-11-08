@@ -511,3 +511,17 @@ void Instruction::CP_A_r8(cpu &cpu){
     cpu.set_flags(cpu.h_flag, ((r8 & 0x0F) > (oldA & 0x0F) ));
     cpu.set_flags(cpu.c_flag, (r8 > oldA));
 }
+
+void Instruction::ADD_A_i8(cpu &cpu){
+    uint8_t i8 = cpu.fetch();
+    uint8_t oldA = cpu.A;
+    uint8_t result ;
+
+    result = i8 + oldA;
+    cpu.A = result;
+
+    cpu.set_flags(cpu.z_flag, result == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, ((oldA & 0x0F) + (i8 & 0x0F)) > 0x0F);
+    cpu.set_flags(cpu.c_flag, ((oldA + i8)) > 0xFF);
+}
