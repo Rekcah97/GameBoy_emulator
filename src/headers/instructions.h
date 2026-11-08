@@ -86,5 +86,6 @@ class Instruction{
 
     void LDH_C_A(cpu& cpu);
     void LDH_i8_A(cpu& cpu);
+    void LD_i16_A(cpu& cpu);
 
 };

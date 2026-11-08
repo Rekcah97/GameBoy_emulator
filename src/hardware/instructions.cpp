@@ -745,3 +745,8 @@ void Instruction::LDH_i8_A(cpu &cpu){
     uint8_t i8 = cpu.fetch();
     cpu.mem.write((0xFF00 + i8), cpu.A);
 }
+
+void Instruction::LD_i16_A(cpu &cpu){
+    uint16_t i16 = cpu.fetch16();
+    cpu.mem.write(i16,cpu.A);
+}
