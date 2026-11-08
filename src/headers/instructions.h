@@ -13,6 +13,7 @@ class Instruction{
     bool checkCond(cpu& cpu, int cond);
     uint8_t get_r8(cpu& cpu, int dst);
     uint16_t pop16(cpu& cpu);
+    void push16(cpu& cpu, uint16_t value);
 
     void NOP(){};
     void LD_r16_i16(cpu& cpu);
@@ -75,6 +76,8 @@ class Instruction{
     void JP_COND_i16(cpu& cpu);
     void JP_i16(cpu& cpu);
     void JP_hl(cpu& cpu);
+
+    void CALL_COND_i16(cpu& cpu);
 
 
 };

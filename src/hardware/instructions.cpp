@@ -665,3 +665,24 @@ void Instruction::JP_i16(cpu &cpu){
 void Instruction::JP_hl(cpu &cpu){
     cpu.PC = cpu.get_HL();
 }
+
+void Instruction::push16(cpu &cpu, uint16_t value){
+    uint8_t lo = value & 0x00FF;
+    uint8_t hi = (value & 0xFF00) >> 8;
+    cpu.SP--;
+    cpu.mem.write(cpu.SP, hi);
+    cpu.SP--;
+    cpu.mem.write(cpu.SP, lo);    
+
+}
+
+void Instruction::CALL_COND_i16(cpu &cpu){
+    int cond = (cpu.opcode & 0x18) >> 3;
+    uint16_t i16 = cpu.fetch16();
+    uint8_t pc_lo = 0;
+    uint8_t pc_hi = 0;
+    if(checkCond(cpu, cond)){
+        push16(cpu, cpu.PC);
+        cpu.PC = i16;
+    }
+}
