@@ -110,9 +110,6 @@ void cpu::set_IF(uint8_t value){
 
 void cpu::handle_interrupt(uint8_t mask){
     uint8_t IF_flag = get_IF();
-    bool isOn ;
-
-    isOn = IF_flag & mask;
 
     IF_flag = IF_flag & ~mask;
     set_IF(IF_flag);
