@@ -100,5 +100,6 @@ class Instruction{
     void RL_r8(cpu &cpu, int oprnd, uint8_t r8);
     void RR_r8(cpu &cpu, int oprnd, uint8_t r8);
     void SLA_r8(cpu &cpu, int oprnd, uint8_t r8);
+    void SRA_r8(cpu &cpu, int oprnd, uint8_t r8);
 
 };
