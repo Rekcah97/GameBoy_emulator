@@ -93,4 +93,7 @@ class Instruction{
     void DI(cpu& cpu);
     void EI(cpu& cpu);
 
+    //CB prefix instruction
+    void CB_prefix(cpu& cpu);
+
 };

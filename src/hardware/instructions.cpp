@@ -813,3 +813,14 @@ void Instruction::DI(cpu &cpu){
 void Instruction::EI(cpu &cpu){
     cpu.IME_pending = true;
 }
+
+void Instruction::CB_prefix(cpu &cpu){
+    uint8_t opcode = cpu.fetch();
+
+    int oprnd = (opcode & 0x07);
+    uint8_t r8 = get_r8(cpu, oprnd);
+
+    switch (opcode) {
+    //TODO 
+    }
+}
