@@ -34,6 +34,7 @@ class cpu{
     uint8_t get_IF();
     void set_IE(uint8_t value);
     void set_IF(uint8_t value);
+    void handle_interrupt(uint8_t mask);
 
 
     public:

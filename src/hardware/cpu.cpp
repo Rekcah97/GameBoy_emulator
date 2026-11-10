@@ -107,3 +107,31 @@ void cpu::set_IE(uint8_t value){
 void cpu::set_IF(uint8_t value){
     mem.write(0xFF0F, value);  
 }
+
+void cpu::handle_interrupt(uint8_t mask){
+    uint8_t IF_flag = get_IF();
+    bool isOn ;
+
+    isOn = IF_flag & mask;
+
+    IF_flag = IF_flag & ~mask;
+    set_IF(IF_flag);
+    IME = 0;
+
+    uint8_t lo = PC & 0x00FF;
+    uint8_t hi = (PC & 0xFF00) >> 8;
+    SP--;
+    mem.write(SP, hi);
+    SP--;
+    mem.write(SP, lo);    
+
+    switch (mask) {
+        case 0x10: PC = (0x0060); break;
+        case 0x08: PC = (0x0058); break;
+        case 0x04: PC = (0x0050); break;
+        case 0x02: PC = (0x0048); break;
+        case 0x01: PC = (0x0040); break;
+        default: break;
+    
+    }
+}
