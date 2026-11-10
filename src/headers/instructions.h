@@ -97,5 +97,6 @@ class Instruction{
     void CB_prefix(cpu& cpu);
     void RLC_r8(cpu &cpu, int oprnd, uint8_t r8);
     void RRC_r8(cpu &cpu, int oprnd, uint8_t r8);
+    void RL_r8(cpu &cpu, int oprnd, uint8_t r8);
 
 };
