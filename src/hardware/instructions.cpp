@@ -374,6 +374,11 @@ void Instruction::LD_r8_r8(cpu &cpu){
     loadRegister(cpu,dest, value);
 }
 
+void Instruction::HALT(cpu &cpu){
+    cpu.halted = true;
+    // TODO: halt bug 
+}
+
 uint8_t Instruction::get_r8(cpu &cpu, int dst){
     uint8_t result = 0;
     switch(dst){

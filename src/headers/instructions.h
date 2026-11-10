@@ -16,21 +16,18 @@ class Instruction{
     void push16(cpu& cpu, uint16_t value);
 
     void NOP(){};
-    void LD_r16_i16(cpu& cpu);
 
+    void LD_r16_i16(cpu& cpu);
     void LD_r16m_a(cpu& cpu);
     void LD_a_r16m(cpu& cpu);
-
     void LD_i16_SP(cpu& cpu);
 
     void INC_r16(cpu& cpu);
     void DEC_r16(cpu& cpu);
-
     void ADD_hl_r16(cpu& cpu);
 
     void INC_r8(cpu& cpu);
     void DEC_r8(cpu& cpu);
-
 
     void LD_r8_i8(cpu& cpu);
 
@@ -49,7 +46,7 @@ class Instruction{
     void STOP(cpu& cpu);
 
     void LD_r8_r8(cpu& cpu);
-    // TO DO HLT
+    void HALT(cpu& cpu);
 
     void ADD_A_r8(cpu& cpu);
     void ADC_A_r8(cpu& cpu);

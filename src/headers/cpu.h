@@ -44,6 +44,8 @@ class cpu{
     void set_IF(uint8_t value);
     void handle_interrupt(uint8_t mask);
 
+    bool halted;
+
 
     public:
 
