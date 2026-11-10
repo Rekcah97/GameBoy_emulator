@@ -912,3 +912,13 @@ void Instruction::SRA_r8(cpu &cpu, int oprnd, uint8_t r8){
     cpu.set_flags(cpu.h_flag, 0);
     cpu.set_flags(cpu.c_flag,oldLSB );
 }
+
+void Instruction::SWAP_r8(cpu &cpu, int oprnd, uint8_t r8){
+    uint8_t value = (r8 << 4) | (r8 >> 4); 
+    loadRegister(cpu, oprnd, value);
+
+    cpu.set_flags(cpu.z_flag, value == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag,0 );
+}
