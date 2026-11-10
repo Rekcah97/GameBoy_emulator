@@ -19,6 +19,7 @@ class cpu{
     uint8_t fetch();
     uint16_t fetch16();
 
+    //Flags mask
     const uint8_t z_flag = 0x80;
     const uint8_t n_flag = 0x40;
     const uint8_t h_flag = 0x20;
@@ -28,6 +29,13 @@ class cpu{
     bool get_flags(uint8_t mask);
 
     //Interrupt
+
+    //Interrupt mask
+    const uint8_t joypad = 0x10;
+    const uint8_t serial = 0x08;
+    const uint8_t timer = 0x04;
+    const uint8_t lcd = 0x02;
+    const uint8_t vblank = 0x01;
 
     bool IME; // Interrupt master Enable
     uint8_t get_IE();
@@ -60,6 +68,4 @@ class cpu{
     }
 
     friend class Instruction;
-    //TO_DO instructions and interuppt1
-
 };
