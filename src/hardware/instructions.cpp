@@ -804,3 +804,7 @@ void Instruction::LD_hl_SPni8(cpu &cpu){
 void Instruction::LD_SP_hl(cpu &cpu){
     cpu.SP = cpu.get_HL();
 }
+
+void Instruction::DI(cpu &cpu){
+    cpu.IME = 0;
+}

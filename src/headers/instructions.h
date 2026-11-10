@@ -69,11 +69,9 @@ class Instruction{
     void RET_COND(cpu& cpu);
     void RET(cpu& cpu);
     void RETI(cpu& cpu);
-
     void JP_COND_i16(cpu& cpu);
     void JP_i16(cpu& cpu);
     void JP_hl(cpu& cpu);
-
     void CALL_COND_i16(cpu& cpu);
     void CALL_i16(cpu& cpu);
     void RST_TGT3(cpu& cpu);
@@ -91,5 +89,7 @@ class Instruction{
     void ADD_SP_i8(cpu& cpu);
     void LD_hl_SPni8(cpu& cpu);
     void LD_SP_hl(cpu& cpu);
+
+    void DI(cpu& cpu);
 
 };
