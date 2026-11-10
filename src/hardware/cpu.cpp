@@ -49,6 +49,7 @@ void cpu::reset(){
     PC = 0x0100;
     SP = 0xFFFE;
     IME = 0;
+    IME_pending = 0;
     halted = 0;
     set_IF(0xE1);
     set_IE(0x00);

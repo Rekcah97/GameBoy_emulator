@@ -806,5 +806,10 @@ void Instruction::LD_SP_hl(cpu &cpu){
 }
 
 void Instruction::DI(cpu &cpu){
-    cpu.IME = 0;
+    cpu.IME = false;
+    cpu.IME_pending = false;
+}
+
+void Instruction::EI(cpu &cpu){
+    cpu.IME_pending = true;
 }

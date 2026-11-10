@@ -91,5 +91,6 @@ class Instruction{
     void LD_SP_hl(cpu& cpu);
 
     void DI(cpu& cpu);
+    void EI(cpu& cpu);
 
 };

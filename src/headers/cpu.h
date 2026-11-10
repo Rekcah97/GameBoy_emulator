@@ -38,6 +38,7 @@ class cpu{
     const uint8_t vblank = 0x01;
 
     bool IME; // Interrupt master Enable
+    bool IME_pending;
     uint8_t get_IE();
     uint8_t get_IF();
     void set_IE(uint8_t value);
