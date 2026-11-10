@@ -96,5 +96,6 @@ class Instruction{
     //CB prefix instruction
     void CB_prefix(cpu& cpu);
     void RLC_r8(cpu &cpu, int oprnd, uint8_t r8);
+    void RRC_r8(cpu &cpu, int oprnd, uint8_t r8);
 
 };
