@@ -824,3 +824,19 @@ void Instruction::CB_prefix(cpu &cpu){
     //TODO 
     }
 }
+
+void Instruction::RLC_r8(cpu &cpu, int oprnd, uint8_t r8){
+    uint8_t shift = r8 << 1;
+    bool oldMSB =  r8 & 0x80;
+
+    uint8_t value = shift | oldMSB;
+
+    loadRegister(cpu,oprnd, value);
+
+    cpu.set_flags(cpu.z_flag, value == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag,oldMSB );
+
+
+}
