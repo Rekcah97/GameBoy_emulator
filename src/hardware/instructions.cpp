@@ -816,12 +816,30 @@ void Instruction::EI(cpu &cpu){
 
 void Instruction::CB_prefix(cpu &cpu){
     uint8_t opcode = cpu.fetch();
+    int group = opcode >> 6;
+    int y = (opcode >> 3) & 0x07;
 
     int oprnd = (opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
 
-    switch (opcode) {
-    //TODO 
+    switch (group) {
+        case 0:{
+            switch (y) {
+                case 0: RLC_r8(cpu, oprnd, r8); break;
+                case 1: RRC_r8(cpu, oprnd, r8); break;
+                case 2: RL_r8(cpu, oprnd, r8); break;
+                case 3: RR_r8(cpu, oprnd, r8); break;
+                case 4: SLA_r8(cpu, oprnd, r8); break;
+                case 5: SRA_r8(cpu,  oprnd, r8); break;
+                case 6: SWAP_r8(cpu, oprnd, r8); break;
+                case 7: SRL_r8(cpu, oprnd, r8); break;
+                default: break;
+            }
+        }; break;
+        case 1: BIT_B3_r8(cpu,r8, opcode); break;
+        case 2: RES_b3_r8(cpu, oprnd, r8, opcode); break;
+        case 3: SET_b3_r8(cpu, oprnd, r8, opcode); break;
+        default: break;
     }
 }
 
