@@ -104,4 +104,7 @@ class Instruction{
     void SWAP_r8(cpu &cpu, int oprnd, uint8_t r8);
     void SRL_r8(cpu& cpu, int oprnd, uint8_t r8);
 
+    void BIT_B3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
+
+
 };
