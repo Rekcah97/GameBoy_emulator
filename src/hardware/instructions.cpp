@@ -958,3 +958,11 @@ void Instruction::RES_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
 
     loadRegister(cpu, oprnd, value);
 }
+
+void Instruction::SET_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
+    int u3 = (opcode & 0x38) >> 3; 
+
+    uint8_t value = r8 | (1 << u3);
+
+    loadRegister(cpu, oprnd, value);   
+}

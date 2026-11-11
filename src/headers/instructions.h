@@ -106,6 +106,7 @@ class Instruction{
 
     void BIT_B3_r8(cpu& cpu,uint8_t r8, uint8_t opcode);
     void RES_b3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
+    void SET_b3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
 
 
 };
