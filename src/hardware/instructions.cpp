@@ -938,7 +938,7 @@ void Instruction::SRL_r8(cpu &cpu, int oprnd, uint8_t r8){
     cpu.set_flags(cpu.c_flag,oldLSB );
 }
 
-void Instruction::BIT_B3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
+void Instruction::BIT_B3_r8(cpu &cpu, uint8_t r8, uint8_t opcode){
     int u3 = (opcode & 0x38) >> 3;
 
     bool isSet = (r8 >> u3) & 0x01;
@@ -949,4 +949,12 @@ void Instruction::BIT_B3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
     }
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 1);
+}
+
+void Instruction::RES_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
+    int u3 = (opcode & 0x38) >> 3; 
+
+    uint8_t value = r8 & ~(1 << u3);
+
+    loadRegister(cpu, oprnd, value);
 }
