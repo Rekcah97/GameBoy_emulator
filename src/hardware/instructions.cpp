@@ -175,7 +175,7 @@ void Instruction::DEC_r8(cpu &cpu){
 
     result = operand - 1;
 
-    loadRegisterPair(cpu, oprnd, result);
+    loadRegister(cpu, oprnd, result);
 
     cpu.set_flags(cpu.n_flag, true);
     cpu.set_flags(cpu.z_flag, result == 0x00);
