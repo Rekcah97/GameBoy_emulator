@@ -1,107 +1,107 @@
-#pragma once
 
 #include "../headers/instructions.h"
 #include "../headers/cpu.h"
 #include <cstdint>
 
-
-void Instruction::loadRegisterPair(cpu &cpu, int dst, uint16_t value){
+void Instruction::loadRegisterPair(cpu &cpu, int dst, uint16_t value) {
     switch (dst) {
-        case 0: cpu.set_BC(value); break;
-        case 1: cpu.set_DE(value); break;
-        case 2: cpu.set_HL(value); break;
-        case 3: cpu.SP = value; break;
-        default: break;
+    case 0: cpu.set_BC(value); break;
+    case 1: cpu.set_DE(value); break;
+    case 2: cpu.set_HL(value); break;
+    case 3: cpu.SP = value; break;
+    default: break;
     }
 }
 
-void Instruction::LD_r16_i16(cpu &cpu){
+void Instruction::LD_r16_i16(cpu &cpu) {
     uint8_t dst = (cpu.opcode & 0x30) >> 4;
     uint8_t i_1 = cpu.fetch();
     uint8_t i_2 = cpu.fetch();
 
-    uint16_t value = (i_2 << 8) | i_1 ;
+    uint16_t value = (i_2 << 8) | i_1;
 
     loadRegisterPair(cpu, dst, value);
 }
 
-void Instruction::LD_r16m_a(cpu &cpu){
+void Instruction::LD_r16m_a(cpu &cpu) {
     uint8_t dst = (cpu.opcode & 0x30) >> 4;
 
     switch (dst) {
-        case 0: cpu.mem.write(cpu.get_BC(), cpu.A); break;
-        case 1: cpu.mem.write(cpu.get_DE(), cpu.A); break;
-        case 2: {
-            uint16_t hl = cpu.get_HL();
-            cpu.mem.write(hl, cpu.A); 
-            cpu.set_HL(hl + 0x0001); 
-            break;
-        }
-        case 3: {
-            uint16_t hl = cpu.get_HL();
-            cpu.mem.write(hl, cpu.A); 
-            cpu.set_HL(hl - 0x0001); 
-            break;}
-        default: break;
+    case 0: cpu.mem.write(cpu.get_BC(), cpu.A); break;
+    case 1: cpu.mem.write(cpu.get_DE(), cpu.A); break;
+    case 2: {
+        uint16_t hl = cpu.get_HL();
+        cpu.mem.write(hl, cpu.A);
+        cpu.set_HL(hl + 0x0001);
+        break;
+    }
+    case 3: {
+        uint16_t hl = cpu.get_HL();
+        cpu.mem.write(hl, cpu.A);
+        cpu.set_HL(hl - 0x0001);
+        break;
+    }
+    default: break;
     }
 }
 
-void Instruction::LD_a_r16m(cpu &cpu){
+void Instruction::LD_a_r16m(cpu &cpu) {
     uint8_t src = (cpu.opcode & 0x30) >> 4;
 
-        switch (src) {
-        case 0: cpu.A = cpu.mem.read(cpu.get_BC()) ; break;
-        case 1: cpu.A = cpu.mem.read(cpu.get_DE()); break;
-        case 2: {
-            uint16_t hl = cpu.get_HL();
-            cpu.A = cpu.mem.read(hl);
-            cpu.set_HL(hl + 0x0001); 
-            break;
-        }
-        case 3: {
-            uint16_t hl = cpu.get_HL();
-            cpu.A = cpu.mem.read(hl);
-            cpu.set_HL(hl - 0x0001); 
-            break;}
-        default: break;
+    switch (src) {
+    case 0: cpu.A = cpu.mem.read(cpu.get_BC()); break;
+    case 1: cpu.A = cpu.mem.read(cpu.get_DE()); break;
+    case 2: {
+        uint16_t hl = cpu.get_HL();
+        cpu.A = cpu.mem.read(hl);
+        cpu.set_HL(hl + 0x0001);
+        break;
+    }
+    case 3: {
+        uint16_t hl = cpu.get_HL();
+        cpu.A = cpu.mem.read(hl);
+        cpu.set_HL(hl - 0x0001);
+        break;
+    }
+    default: break;
     }
 }
 
-void Instruction::LD_i16_SP(cpu &cpu){
+void Instruction::LD_i16_SP(cpu &cpu) {
     uint16_t addr = cpu.fetch16();
     uint16_t sp = cpu.SP;
 
-    uint8_t lo = sp & 0x00FF ;
+    uint8_t lo = sp & 0x00FF;
     uint16_t hi = ((sp & 0xFF00) >> 8);
 
     cpu.mem.write(addr, lo);
     cpu.mem.write(addr + 0x0001, hi);
 }
 
-void Instruction::INC_r16(cpu &cpu){
+void Instruction::INC_r16(cpu &cpu) {
     int oprnd = (cpu.opcode & 0x30) >> 4;
 
     switch (oprnd) {
-        case 0: cpu.set_BC(cpu.get_BC() + 0x0001); break;
-        case 1: cpu.set_DE(cpu.get_DE() + 0x0001); break;
-        case 2: cpu.set_HL(cpu.get_HL() + 0x0001); break;
-        case 3: cpu.SP++; break;
-        default: break;
+    case 0: cpu.set_BC(cpu.get_BC() + 0x0001); break;
+    case 1: cpu.set_DE(cpu.get_DE() + 0x0001); break;
+    case 2: cpu.set_HL(cpu.get_HL() + 0x0001); break;
+    case 3: cpu.SP++; break;
+    default: break;
     }
 }
 
-void Instruction::DEC_r16(cpu &cpu){
+void Instruction::DEC_r16(cpu &cpu) {
     int oprnd = (cpu.opcode & 0x30) >> 4;
-        switch (oprnd) {
-        case 0: cpu.set_BC(cpu.get_BC() - 0x0001); break;
-        case 1: cpu.set_DE(cpu.get_DE() - 0x0001); break;
-        case 2: cpu.set_HL(cpu.get_HL() - 0x0001); break;
-        case 3: cpu.SP--; break;
-        default: break;
+    switch (oprnd) {
+    case 0: cpu.set_BC(cpu.get_BC() - 0x0001); break;
+    case 1: cpu.set_DE(cpu.get_DE() - 0x0001); break;
+    case 2: cpu.set_HL(cpu.get_HL() - 0x0001); break;
+    case 3: cpu.SP--; break;
+    default: break;
     }
 }
 
-void Instruction::ADD_hl_r16(cpu &cpu){
+void Instruction::ADD_hl_r16(cpu &cpu) {
     int oprnd = (cpu.opcode & 0x30) >> 4;
 
     uint16_t hl = cpu.get_HL();
@@ -109,11 +109,11 @@ void Instruction::ADD_hl_r16(cpu &cpu){
     uint32_t sum;
 
     switch (oprnd) {
-        case 0: operand = cpu.get_BC(); break;
-        case 1: operand = cpu.get_DE(); break;
-        case 2: operand = hl; break;
-        case 3: operand = cpu.SP; break;
-        default: break;
+    case 0: operand = cpu.get_BC(); break;
+    case 1: operand = cpu.get_DE(); break;
+    case 2: operand = hl; break;
+    case 3: operand = cpu.SP; break;
+    default: break;
     }
 
     cpu.set_HL(hl + operand);
@@ -126,51 +126,47 @@ void Instruction::ADD_hl_r16(cpu &cpu){
     cpu.set_flags(cpu.h_flag, half_carry);
 }
 
-void Instruction::INC_r8(cpu &cpu){
+void Instruction::INC_r8(cpu &cpu) {
     int oprnd = (cpu.opcode & 0x38) >> 3;
     uint8_t operand = 0;
     uint8_t result;
 
-
-
     switch (oprnd) {
-        case 0: operand = cpu.B; break;
-        case 1: operand = cpu.C; break;
-        case 2: operand = cpu.D; break;
-        case 3: operand = cpu.E; break;
-        case 4: operand = cpu.H; break;
-        case 5: operand = cpu.L; break;
-        case 6: operand = cpu.mem.read(cpu.get_HL()); break;
-        case 7: operand = cpu.A; break;
-        default: break;
+    case 0: operand = cpu.B; break;
+    case 1: operand = cpu.C; break;
+    case 2: operand = cpu.D; break;
+    case 3: operand = cpu.E; break;
+    case 4: operand = cpu.H; break;
+    case 5: operand = cpu.L; break;
+    case 6: operand = cpu.mem.read(cpu.get_HL()); break;
+    case 7: operand = cpu.A; break;
+    default: break;
     }
 
     result = operand + 1;
-    
+
     loadRegister(cpu, oprnd, result);
-    
+
     cpu.set_flags(cpu.n_flag, false);
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.h_flag, ((operand & 0x0F) + 0x01) > 0x0F);
 }
 
-void Instruction::DEC_r8(cpu &cpu){
+void Instruction::DEC_r8(cpu &cpu) {
     int oprnd = (cpu.opcode & 0x38) >> 3;
     uint8_t operand = 0;
     uint8_t result;
 
-
-
     switch (oprnd) {
-        case 0: operand = cpu.B; break;
-        case 1: operand = cpu.C; break;
-        case 2: operand = cpu.D; break;
-        case 3: operand = cpu.E; break;
-        case 4: operand = cpu.H; break;
-        case 5: operand = cpu.L; break;
-        case 6: operand = cpu.mem.read(cpu.get_HL());break;
-        case 7: operand = cpu.A; break;
-        default: break;
+    case 0: operand = cpu.B; break;
+    case 1: operand = cpu.C; break;
+    case 2: operand = cpu.D; break;
+    case 3: operand = cpu.E; break;
+    case 4: operand = cpu.H; break;
+    case 5: operand = cpu.L; break;
+    case 6: operand = cpu.mem.read(cpu.get_HL()); break;
+    case 7: operand = cpu.A; break;
+    default: break;
     }
 
     result = operand - 1;
@@ -180,47 +176,45 @@ void Instruction::DEC_r8(cpu &cpu){
     cpu.set_flags(cpu.n_flag, true);
     cpu.set_flags(cpu.z_flag, result == 0x00);
     cpu.set_flags(cpu.h_flag, (operand & 0x0F) == 0);
-
 }
 
-void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value){
+void Instruction::loadRegister(cpu &cpu, int dst, uint8_t value) {
     switch (dst) {
-        case 0: cpu.B = value; break;
-        case 1: cpu.C = value; break;
-        case 2: cpu.D = value; break;
-        case 3: cpu.E = value; break;
-        case 4: cpu.H = value; break;
-        case 5: cpu.L = value; break;
-        case 6: {
-            cpu.mem.write(cpu.get_HL(), value);
-            break;
-        }
-        case 7: cpu.A = value; break;
-        default: break;
+    case 0: cpu.B = value; break;
+    case 1: cpu.C = value; break;
+    case 2: cpu.D = value; break;
+    case 3: cpu.E = value; break;
+    case 4: cpu.H = value; break;
+    case 5: cpu.L = value; break;
+    case 6: {
+        cpu.mem.write(cpu.get_HL(), value);
+        break;
+    }
+    case 7: cpu.A = value; break;
+    default: break;
     }
 }
 
-void Instruction::LD_r8_i8(cpu& cpu){
+void Instruction::LD_r8_i8(cpu &cpu) {
     int dest = (cpu.opcode & 0x38) >> 3;
     uint8_t n = cpu.fetch();
 
-    loadRegister(cpu,dest,n);
+    loadRegister(cpu, dest, n);
 }
 
-void Instruction::RLCA(cpu &cpu){
+void Instruction::RLCA(cpu &cpu) {
     uint8_t shift = cpu.A << 1;
-    bool needed =  (cpu.A << 1) & 0x100;
+    bool needed = (cpu.A << 1) & 0x100;
 
     cpu.A = shift | needed;
 
     cpu.set_flags(cpu.z_flag, false);
     cpu.set_flags(cpu.n_flag, false);
-    cpu.set_flags(cpu.h_flag,false);
+    cpu.set_flags(cpu.h_flag, false);
     cpu.set_flags(cpu.c_flag, needed);
-
 }
 
-void Instruction::RRCA(cpu &cpu){
+void Instruction::RRCA(cpu &cpu) {
     uint8_t shift = cpu.A >> 1;
     bool needed = cpu.A & 0x01;
 
@@ -228,15 +222,14 @@ void Instruction::RRCA(cpu &cpu){
 
     cpu.set_flags(cpu.z_flag, false);
     cpu.set_flags(cpu.n_flag, false);
-    cpu.set_flags(cpu.h_flag,false);
+    cpu.set_flags(cpu.h_flag, false);
     cpu.set_flags(cpu.c_flag, needed);
 }
 
-void Instruction::RLA(cpu &cpu){
+void Instruction::RLA(cpu &cpu) {
     uint8_t shift = cpu.A << 1;
     bool oldCarry = cpu.get_flags(cpu.c_flag);
     bool oldMSB = (cpu.A & 0x80) != 0;
-
 
     cpu.A = shift | (oldCarry);
 
@@ -244,10 +237,9 @@ void Instruction::RLA(cpu &cpu){
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
     cpu.set_flags(cpu.c_flag, oldMSB);
-
 }
 
-void Instruction::RRA(cpu &cpu){
+void Instruction::RRA(cpu &cpu) {
     uint8_t shift = cpu.A >> 1;
     bool oldCarry = cpu.get_flags(cpu.c_flag);
     bool oldLSB = (cpu.A & 0x01);
@@ -260,26 +252,26 @@ void Instruction::RRA(cpu &cpu){
     cpu.set_flags(cpu.c_flag, oldLSB);
 }
 
-void Instruction::DAA(cpu &cpu){
+void Instruction::DAA(cpu &cpu) {
     uint8_t adjustment = 0x00;
     uint8_t result = cpu.A;
 
     bool half_flag = cpu.get_flags(cpu.h_flag);
     bool carry_flag = cpu.get_flags(cpu.c_flag);
 
-    if(cpu.get_flags(cpu.n_flag)){
-        if(half_flag){
+    if (cpu.get_flags(cpu.n_flag)) {
+        if (half_flag) {
             adjustment += 0x06;
         }
-        if(carry_flag){
+        if (carry_flag) {
             adjustment += 0x60;
         }
         result -= adjustment;
-    }else{
-        if(half_flag || ((cpu.A & 0x0F) > 0x09)){
+    } else {
+        if (half_flag || ((cpu.A & 0x0F) > 0x09)) {
             adjustment += 0x06;
         }
-        if(carry_flag || (cpu.A > 0x99)){
+        if (carry_flag || (cpu.A > 0x99)) {
             adjustment += 0x60;
             cpu.set_flags(cpu.c_flag, 1);
         }
@@ -292,21 +284,21 @@ void Instruction::DAA(cpu &cpu){
     cpu.set_flags(cpu.h_flag, 0);
 }
 
-void Instruction::CPL(cpu &cpu){
+void Instruction::CPL(cpu &cpu) {
     cpu.A = ~cpu.A;
 
-    cpu.set_flags( cpu.n_flag, 1);
+    cpu.set_flags(cpu.n_flag, 1);
     cpu.set_flags(cpu.h_flag, 1);
 }
 
-void Instruction::SCF(cpu &cpu){
+void Instruction::SCF(cpu &cpu) {
 
     cpu.set_flags(cpu.c_flag, 1);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
 }
 
-void Instruction::CCF(cpu &cpu){
+void Instruction::CCF(cpu &cpu) {
     bool oldCarry = cpu.get_flags(cpu.c_flag);
 
     cpu.set_flags(cpu.c_flag, !oldCarry);
@@ -314,93 +306,103 @@ void Instruction::CCF(cpu &cpu){
     cpu.set_flags(cpu.h_flag, 0);
 }
 
-void Instruction::JR_i8(cpu &cpu){
+void Instruction::JR_i8(cpu &cpu) {
     int8_t offset = cpu.fetch();
 
     cpu.PC += offset;
-
 }
 
-bool Instruction::checkCond(cpu &cpu, int cond){
+bool Instruction::checkCond(cpu &cpu, int cond) {
 
-    bool result = 0; 
-        switch (cond) {
-        case 0:  if(!cpu.get_flags(cpu.z_flag)) result = 1 ; break;
-        case 1:  if(cpu.get_flags(cpu.z_flag)) result = 1; break;
-        case 2: if(!cpu.get_flags(cpu.c_flag))  result = 1; break;
-        case 3: if(cpu.get_flags(cpu.c_flag)) result = 1; break;
-        default: break;
+    bool result = 0;
+    switch (cond) {
+    case 0:
+        if (!cpu.get_flags(cpu.z_flag))
+            result = 1;
+        break;
+    case 1:
+        if (cpu.get_flags(cpu.z_flag))
+            result = 1;
+        break;
+    case 2:
+        if (!cpu.get_flags(cpu.c_flag))
+            result = 1;
+        break;
+    case 3:
+        if (cpu.get_flags(cpu.c_flag))
+            result = 1;
+        break;
+    default: break;
     }
 
     return result;
 }
 
-void Instruction::JR_cond_i8(cpu &cpu){
+void Instruction::JR_cond_i8(cpu &cpu) {
     uint8_t cond = (cpu.opcode & 0x18) >> 3;
     int8_t offset = cpu.fetch();
 
-    if(checkCond(cpu, cond)){
+    if (checkCond(cpu, cond)) {
         cpu.PC += offset;
     }
-
 }
 
-void Instruction::STOP(cpu &cpu){
+void Instruction::STOP(cpu &cpu) {
     cpu.fetch();
     NOP();
 }
 
-//for this HALT must be CAlled before this instruction
-void Instruction::LD_r8_r8(cpu &cpu){
+// for this HALT must be CAlled before this instruction
+void Instruction::LD_r8_r8(cpu &cpu) {
     int dest = (cpu.opcode & 0x38) >> 3;
     int src = (cpu.opcode & 0x07);
     uint8_t value = 0x00;
 
     switch (src) {
-        case 0: value = cpu.B; break;
-        case 1: value = cpu.C; break;
-        case 2: value = cpu.D; break;
-        case 3: value = cpu.E; break;
-        case 4: value = cpu.H; break;
-        case 5: value = cpu.L; break;
-        case 6:{ 
-            value = cpu.mem.read(cpu.get_HL());
-            break;
-        }
-        case 7: value = cpu.A; break;
-        default: break;
+    case 0: value = cpu.B; break;
+    case 1: value = cpu.C; break;
+    case 2: value = cpu.D; break;
+    case 3: value = cpu.E; break;
+    case 4: value = cpu.H; break;
+    case 5: value = cpu.L; break;
+    case 6: {
+        value = cpu.mem.read(cpu.get_HL());
+        break;
+    }
+    case 7: value = cpu.A; break;
+    default: break;
     }
 
-    loadRegister(cpu,dest, value);
+    loadRegister(cpu, dest, value);
 }
 
-void Instruction::HALT(cpu &cpu){
+void Instruction::HALT(cpu &cpu) {
     cpu.halted = true;
-    // TODO: halt bug 
+    // TODO: halt bug
 }
 
-uint8_t Instruction::get_r8(cpu &cpu, int dst){
+uint8_t Instruction::get_r8(cpu &cpu, int dst) {
     uint8_t result = 0;
-    switch(dst){
-        case 0: result = cpu.B; break;
-        case 1: result = cpu.C; break;
-        case 2: result = cpu.D; break;
-        case 3: result = cpu.E; break;
-        case 4: result = cpu.H; break;
-        case 5: result = cpu.L; break;
-        case 6: result = cpu.mem.read(cpu.get_HL()); break;
-        case 7: result = cpu.A ; break;
-        default: break;
+    switch (dst) {
+    case 0: result = cpu.B; break;
+    case 1: result = cpu.C; break;
+    case 2: result = cpu.D; break;
+    case 3: result = cpu.E; break;
+    case 4: result = cpu.H; break;
+    case 5: result = cpu.L; break;
+    case 6: result = cpu.mem.read(cpu.get_HL()); break;
+    case 7: result = cpu.A; break;
+    default: break;
     }
 
     return result;
 }
 
-void Instruction::ADD_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::ADD_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = r8 + oldA;
     cpu.A = result;
@@ -411,8 +413,8 @@ void Instruction::ADD_A_r8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, ((oldA + r8)) > 0xFF);
 }
 
-void Instruction::ADC_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::ADC_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
     uint8_t carry = cpu.get_flags(cpu.c_flag);
@@ -427,39 +429,39 @@ void Instruction::ADC_A_r8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, ((oldA + r8 + carry)) > 0xFF);
 }
 
-void Instruction::SUB_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::SUB_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - r8;
     cpu.A = result;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, ((r8 & 0x0F) > (oldA & 0x0F) ));
+    cpu.set_flags(cpu.h_flag, ((r8 & 0x0F) > (oldA & 0x0F)));
     cpu.set_flags(cpu.c_flag, (r8 > oldA));
 }
 
-void Instruction::SBC_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::SBC_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
     uint8_t carry = cpu.get_flags(cpu.c_flag);
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - r8 - carry;
     cpu.A = result;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, (((r8 & 0x0F) + carry) > (oldA & 0x0F) ));
+    cpu.set_flags(cpu.h_flag, (((r8 & 0x0F) + carry) > (oldA & 0x0F)));
     cpu.set_flags(cpu.c_flag, ((r8 + carry) > oldA));
 }
 
-void Instruction::AND_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::AND_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
     uint8_t result;
@@ -473,8 +475,8 @@ void Instruction::AND_A_r8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::XOR_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::XOR_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
     uint8_t result;
@@ -488,8 +490,8 @@ void Instruction::XOR_A_r8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::OR_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::OR_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
     uint8_t result;
@@ -503,24 +505,24 @@ void Instruction::OR_A_r8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::CP_A_r8(cpu &cpu){
-    int oprnd = (cpu.opcode & 0x07) ;
+void Instruction::CP_A_r8(cpu &cpu) {
+    int oprnd = (cpu.opcode & 0x07);
     uint8_t r8 = get_r8(cpu, oprnd);
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - r8;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, ((r8 & 0x0F) > (oldA & 0x0F) ));
+    cpu.set_flags(cpu.h_flag, ((r8 & 0x0F) > (oldA & 0x0F)));
     cpu.set_flags(cpu.c_flag, (r8 > oldA));
 }
 
-void Instruction::ADD_A_i8(cpu &cpu){
+void Instruction::ADD_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = i8 + oldA;
     cpu.A = result;
@@ -531,8 +533,8 @@ void Instruction::ADD_A_i8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, ((oldA + i8)) > 0xFF);
 }
 
-void Instruction::ADC_A_i8(cpu &cpu){
-    uint8_t i8 = cpu.fetch();   
+void Instruction::ADC_A_i8(cpu &cpu) {
+    uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
     uint8_t carry = cpu.get_flags(cpu.c_flag);
     uint8_t result;
@@ -546,37 +548,37 @@ void Instruction::ADC_A_i8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, ((oldA + i8 + carry)) > 0xFF);
 }
 
-void Instruction::SUB_A_i8(cpu &cpu){
+void Instruction::SUB_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - i8;
     cpu.A = result;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, ((i8 & 0x0F) > (oldA & 0x0F) ));
-    cpu.set_flags(cpu.c_flag, (i8 > oldA));   
+    cpu.set_flags(cpu.h_flag, ((i8 & 0x0F) > (oldA & 0x0F)));
+    cpu.set_flags(cpu.c_flag, (i8 > oldA));
 }
 
-void Instruction::SBC_A_i8(cpu &cpu){
+void Instruction::SBC_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
     uint8_t carry = cpu.get_flags(cpu.c_flag);
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - i8 - carry;
     cpu.A = result;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, (((i8 & 0x0F) + carry) > (oldA & 0x0F) ));
-    cpu.set_flags(cpu.c_flag, ((i8 + carry) > oldA));   
+    cpu.set_flags(cpu.h_flag, (((i8 & 0x0F) + carry) > (oldA & 0x0F)));
+    cpu.set_flags(cpu.c_flag, ((i8 + carry) > oldA));
 }
 
-void Instruction::AND_A_i8(cpu &cpu){
-    uint8_t i8= cpu.fetch();
+void Instruction::AND_A_i8(cpu &cpu) {
+    uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
     uint8_t result;
 
@@ -589,7 +591,7 @@ void Instruction::AND_A_i8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::XOR_A_i8(cpu &cpu){
+void Instruction::XOR_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
     uint8_t result;
@@ -603,7 +605,7 @@ void Instruction::XOR_A_i8(cpu &cpu){
     cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::OR_A_i8(cpu &cpu){
+void Instruction::OR_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
     uint8_t result;
@@ -614,168 +616,155 @@ void Instruction::OR_A_i8(cpu &cpu){
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag, 0);   
+    cpu.set_flags(cpu.c_flag, 0);
 }
 
-void Instruction::CP_A_i8(cpu &cpu){
+void Instruction::CP_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     uint8_t oldA = cpu.A;
-    uint8_t result ;
+    uint8_t result;
 
     result = oldA - i8;
 
     cpu.set_flags(cpu.z_flag, result == 0);
     cpu.set_flags(cpu.n_flag, 1);
-    cpu.set_flags(cpu.h_flag, ((i8 & 0x0F) > (oldA & 0x0F) ));
-    cpu.set_flags(cpu.c_flag, (i8 > oldA));       
+    cpu.set_flags(cpu.h_flag, ((i8 & 0x0F) > (oldA & 0x0F)));
+    cpu.set_flags(cpu.c_flag, (i8 > oldA));
 }
 
-uint16_t Instruction::pop16(cpu &cpu){
+uint16_t Instruction::pop16(cpu &cpu) {
     uint16_t location = 0;
 
     location = cpu.mem.read(cpu.SP);
     cpu.SP++;
-    location = location | (cpu.mem.read(cpu.SP) << 8 );
+    location = location | (cpu.mem.read(cpu.SP) << 8);
     cpu.SP++;
 
     return location;
-    
 }
 
-void Instruction::RET_COND(cpu &cpu){
+void Instruction::RET_COND(cpu &cpu) {
     int cond = (cpu.opcode & 0x18) >> 3;
 
-    if(checkCond(cpu, cond)){
+    if (checkCond(cpu, cond)) {
         cpu.PC = pop16(cpu);
     }
 }
 
-void Instruction::RET(cpu &cpu){
-    cpu.PC = pop16(cpu);
-}
+void Instruction::RET(cpu &cpu) { cpu.PC = pop16(cpu); }
 
-void Instruction::RETI(cpu &cpu){
-    cpu.PC = pop16(cpu); 
+void Instruction::RETI(cpu &cpu) {
+    cpu.PC = pop16(cpu);
     cpu.IME = true;
 }
 
-void Instruction::JP_COND_i16(cpu &cpu){
+void Instruction::JP_COND_i16(cpu &cpu) {
     int cond = (cpu.opcode & 0x18) >> 3;
     uint16_t i16 = cpu.fetch16();
 
-    if(checkCond(cpu,cond)){
+    if (checkCond(cpu, cond)) {
         cpu.PC = i16;
     }
 }
 
-void Instruction::JP_i16(cpu &cpu){
-    cpu.PC =cpu.fetch16();
-}
+void Instruction::JP_i16(cpu &cpu) { cpu.PC = cpu.fetch16(); }
 
-void Instruction::JP_hl(cpu &cpu){
-    cpu.PC = cpu.get_HL();
-}
+void Instruction::JP_hl(cpu &cpu) { cpu.PC = cpu.get_HL(); }
 
-void Instruction::push16(cpu &cpu, uint16_t value){
+void Instruction::push16(cpu &cpu, uint16_t value) {
     uint8_t lo = value & 0x00FF;
     uint8_t hi = (value & 0xFF00) >> 8;
     cpu.SP--;
     cpu.mem.write(cpu.SP, hi);
     cpu.SP--;
-    cpu.mem.write(cpu.SP, lo);    
-
+    cpu.mem.write(cpu.SP, lo);
 }
 
-void Instruction::CALL_COND_i16(cpu &cpu){
+void Instruction::CALL_COND_i16(cpu &cpu) {
     int cond = (cpu.opcode & 0x18) >> 3;
     uint16_t i16 = cpu.fetch16();
-    if(checkCond(cpu, cond)){
+    if (checkCond(cpu, cond)) {
         push16(cpu, cpu.PC);
         cpu.PC = i16;
     }
 }
 
-void Instruction::CALL_i16(cpu &cpu){
-    uint16_t i16 = cpu.fetch16();   
+void Instruction::CALL_i16(cpu &cpu) {
+    uint16_t i16 = cpu.fetch16();
     push16(cpu, cpu.PC);
     cpu.PC = i16;
 }
 
-void Instruction::RST_TGT3(cpu &cpu){
+void Instruction::RST_TGT3(cpu &cpu) {
     uint8_t target = (cpu.opcode & 0x38) >> 3;
     uint8_t location = 0;
     switch (target) {
-        case 0: location = 0x00; break;
-        case 1: location = 0x08; break;
-        case 2: location = 0x10; break;
-        case 3: location = 0x18; break;
-        case 4: location = 0x20; break;
-        case 5: location = 0x28; break;
-        case 6: location = 0x30; break;
-        case 7: location = 0x38; break;
-        default: break;
-    
+    case 0: location = 0x00; break;
+    case 1: location = 0x08; break;
+    case 2: location = 0x10; break;
+    case 3: location = 0x18; break;
+    case 4: location = 0x20; break;
+    case 5: location = 0x28; break;
+    case 6: location = 0x30; break;
+    case 7: location = 0x38; break;
+    default: break;
     }
     push16(cpu, cpu.PC);
     cpu.PC = 0x000 + location;
 }
 
-void Instruction::POP_r16stk(cpu &cpu){
+void Instruction::POP_r16stk(cpu &cpu) {
     int r16 = (cpu.opcode & 0x30) >> 4;
     uint16_t value = pop16(cpu);
 
     switch (r16) {
-        case 0: cpu.set_BC(value); break;
-        case 1: cpu.set_DE(value); break;
-        case 2: cpu.set_HL(value); break;
-        case 3: cpu.set_AF(value); break;
-        default: break;
+    case 0: cpu.set_BC(value); break;
+    case 1: cpu.set_DE(value); break;
+    case 2: cpu.set_HL(value); break;
+    case 3: cpu.set_AF(value); break;
+    default: break;
     }
 }
 
-void Instruction::PUSH_r16stk(cpu &cpu){
+void Instruction::PUSH_r16stk(cpu &cpu) {
     int r16 = (cpu.opcode & 0x30) >> 4;
     uint16_t value = 0;
 
     switch (r16) {
-        case 0: value = cpu.get_BC(); break;
-        case 1: value = cpu.get_DE(); break;
-        case 2: value = cpu.get_HL(); break;
-        case 3: value = cpu.get_AF(); break;
-        default: break;
+    case 0: value = cpu.get_BC(); break;
+    case 1: value = cpu.get_DE(); break;
+    case 2: value = cpu.get_HL(); break;
+    case 3: value = cpu.get_AF(); break;
+    default: break;
     }
     push16(cpu, value);
 }
 
-void Instruction::LDH_C_A(cpu &cpu){
-    cpu.mem.write((0xFF00 + cpu.C), cpu.A);
-}
+void Instruction::LDH_C_A(cpu &cpu) { cpu.mem.write((0xFF00 + cpu.C), cpu.A); }
 
-void Instruction::LDH_i8_A(cpu &cpu){
+void Instruction::LDH_i8_A(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     cpu.mem.write((0xFF00 + i8), cpu.A);
 }
 
-void Instruction::LD_i16_A(cpu &cpu){
+void Instruction::LD_i16_A(cpu &cpu) {
     uint16_t i16 = cpu.fetch16();
-    cpu.mem.write(i16,cpu.A);
+    cpu.mem.write(i16, cpu.A);
 }
 
-void Instruction::LDH_A_C(cpu &cpu){
-    cpu.A = cpu.mem.read((0xFF00 + cpu.C));
-}
+void Instruction::LDH_A_C(cpu &cpu) { cpu.A = cpu.mem.read((0xFF00 + cpu.C)); }
 
-void Instruction::LDH_A_i8(cpu &cpu){
+void Instruction::LDH_A_i8(cpu &cpu) {
     uint8_t i8 = cpu.fetch();
     cpu.A = cpu.mem.read((0xFF00 + i8));
 }
 
-void Instruction::LD_A_i16(cpu &cpu){
+void Instruction::LD_A_i16(cpu &cpu) {
     uint16_t i16 = cpu.fetch16();
     cpu.A = cpu.mem.read(i16);
 }
 
-void Instruction::ADD_SP_i8(cpu &cpu){
+void Instruction::ADD_SP_i8(cpu &cpu) {
     uint8_t rawi8 = cpu.fetch();
     int8_t i8 = static_cast<int8_t>(rawi8);
     uint16_t oldSP = cpu.SP;
@@ -784,11 +773,10 @@ void Instruction::ADD_SP_i8(cpu &cpu){
     cpu.set_flags(cpu.z_flag, 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, ((oldSP & 0x000F) + (rawi8 & 0x000F)) > 0xF);
-    cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF );
-
+    cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF);
 }
 
-void Instruction::LD_hl_SPni8(cpu &cpu){
+void Instruction::LD_hl_SPni8(cpu &cpu) {
     uint8_t rawi8 = cpu.fetch();
     int8_t i8 = static_cast<int8_t>(rawi8);
     uint16_t oldSP = cpu.SP;
@@ -798,23 +786,19 @@ void Instruction::LD_hl_SPni8(cpu &cpu){
     cpu.set_flags(cpu.z_flag, 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, ((oldSP & 0x000F) + (rawi8 & 0x000F)) > 0xF);
-    cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF );  
+    cpu.set_flags(cpu.c_flag, ((oldSP & 0x00FF) + rawi8) > 0xFF);
 }
 
-void Instruction::LD_SP_hl(cpu &cpu){
-    cpu.SP = cpu.get_HL();
-}
+void Instruction::LD_SP_hl(cpu &cpu) { cpu.SP = cpu.get_HL(); }
 
-void Instruction::DI(cpu &cpu){
+void Instruction::DI(cpu &cpu) {
     cpu.IME = false;
     cpu.IME_pending = false;
 }
 
-void Instruction::EI(cpu &cpu){
-    cpu.IME_pending = true;
-}
+void Instruction::EI(cpu &cpu) { cpu.IME_pending = true; }
 
-void Instruction::CB_prefix(cpu &cpu){
+void Instruction::CB_prefix(cpu &cpu) {
     uint8_t opcode = cpu.fetch();
     int group = opcode >> 6;
     int y = (opcode >> 3) & 0x07;
@@ -823,43 +807,43 @@ void Instruction::CB_prefix(cpu &cpu){
     uint8_t r8 = get_r8(cpu, oprnd);
 
     switch (group) {
-        case 0:{
-            switch (y) {
-                case 0: RLC_r8(cpu, oprnd, r8); break;
-                case 1: RRC_r8(cpu, oprnd, r8); break;
-                case 2: RL_r8(cpu, oprnd, r8); break;
-                case 3: RR_r8(cpu, oprnd, r8); break;
-                case 4: SLA_r8(cpu, oprnd, r8); break;
-                case 5: SRA_r8(cpu,  oprnd, r8); break;
-                case 6: SWAP_r8(cpu, oprnd, r8); break;
-                case 7: SRL_r8(cpu, oprnd, r8); break;
-                default: break;
-            }
-        }; break;
-        case 1: BIT_B3_r8(cpu,r8, opcode); break;
-        case 2: RES_b3_r8(cpu, oprnd, r8, opcode); break;
-        case 3: SET_b3_r8(cpu, oprnd, r8, opcode); break;
+    case 0: {
+        switch (y) {
+        case 0: RLC_r8(cpu, oprnd, r8); break;
+        case 1: RRC_r8(cpu, oprnd, r8); break;
+        case 2: RL_r8(cpu, oprnd, r8); break;
+        case 3: RR_r8(cpu, oprnd, r8); break;
+        case 4: SLA_r8(cpu, oprnd, r8); break;
+        case 5: SRA_r8(cpu, oprnd, r8); break;
+        case 6: SWAP_r8(cpu, oprnd, r8); break;
+        case 7: SRL_r8(cpu, oprnd, r8); break;
         default: break;
+        }
+    }; break;
+    case 1: BIT_B3_r8(cpu, r8, opcode); break;
+    case 2: RES_b3_r8(cpu, oprnd, r8, opcode); break;
+    case 3: SET_b3_r8(cpu, oprnd, r8, opcode); break;
+    default: break;
     }
 }
 
-void Instruction::RLC_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::RLC_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 << 1;
-    bool oldMSB =  r8 & 0x80;
+    bool oldMSB = r8 & 0x80;
 
     uint8_t value = shift | oldMSB;
 
-    loadRegister(cpu,oprnd, value);
+    loadRegister(cpu, oprnd, value);
 
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldMSB );
+    cpu.set_flags(cpu.c_flag, oldMSB);
 }
 
-void Instruction::RRC_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::RRC_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 >> 1;
-    bool oldLSB = r8 &0x01;
+    bool oldLSB = r8 & 0x01;
 
     uint8_t value = shift | (oldLSB << 7);
 
@@ -868,27 +852,27 @@ void Instruction::RRC_r8(cpu &cpu, int oprnd, uint8_t r8){
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldLSB );
+    cpu.set_flags(cpu.c_flag, oldLSB);
 }
 
-void Instruction::RL_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::RL_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 << 1;
-    bool oldMSB =  r8 & 0x80;
+    bool oldMSB = r8 & 0x80;
     bool oldCarry = cpu.get_flags(cpu.c_flag);
 
     uint8_t value = shift | oldCarry;
 
-    loadRegister(cpu,oprnd, value);
+    loadRegister(cpu, oprnd, value);
 
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldMSB );
+    cpu.set_flags(cpu.c_flag, oldMSB);
 }
 
-void Instruction::RR_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::RR_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 >> 1;
-    bool oldLSB = r8 &0x01;
+    bool oldLSB = r8 & 0x01;
     bool oldCarry = cpu.get_flags(cpu.c_flag);
 
     uint8_t value = shift | (oldCarry << 7);
@@ -898,89 +882,184 @@ void Instruction::RR_r8(cpu &cpu, int oprnd, uint8_t r8){
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldLSB );
+    cpu.set_flags(cpu.c_flag, oldLSB);
 }
 
-void Instruction::SLA_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::SLA_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 << 1;
-    bool oldMSB =  r8 & 0x80;
-
-    uint8_t value = shift ;
-
-    loadRegister(cpu,oprnd, value);
-
-    cpu.set_flags(cpu.z_flag, value == 0);
-    cpu.set_flags(cpu.n_flag, 0);
-    cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldMSB );
-}
-
-void Instruction::SRA_r8(cpu &cpu, int oprnd, uint8_t r8){
-    uint8_t shift = r8 >> 1;
-    bool oldLSB = r8 &0x01;
     bool oldMSB = r8 & 0x80;
 
-
-    uint8_t value = shift | (oldMSB << 7) ;
+    uint8_t value = shift;
 
     loadRegister(cpu, oprnd, value);
 
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldLSB );
+    cpu.set_flags(cpu.c_flag, oldMSB);
 }
 
-void Instruction::SWAP_r8(cpu &cpu, int oprnd, uint8_t r8){
-    uint8_t value = (r8 << 4) | (r8 >> 4); 
-    loadRegister(cpu, oprnd, value);
-
-    cpu.set_flags(cpu.z_flag, value == 0);
-    cpu.set_flags(cpu.n_flag, 0);
-    cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,0 );
-}
-
-void Instruction::SRL_r8(cpu &cpu, int oprnd, uint8_t r8){
+void Instruction::SRA_r8(cpu &cpu, int oprnd, uint8_t r8) {
     uint8_t shift = r8 >> 1;
-    bool oldLSB = r8 &0x01;
+    bool oldLSB = r8 & 0x01;
+    bool oldMSB = r8 & 0x80;
 
-
-    uint8_t value = shift  ;
+    uint8_t value = shift | (oldMSB << 7);
 
     loadRegister(cpu, oprnd, value);
 
     cpu.set_flags(cpu.z_flag, value == 0);
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 0);
-    cpu.set_flags(cpu.c_flag,oldLSB );
+    cpu.set_flags(cpu.c_flag, oldLSB);
 }
 
-void Instruction::BIT_B3_r8(cpu &cpu, uint8_t r8, uint8_t opcode){
+void Instruction::SWAP_r8(cpu &cpu, int oprnd, uint8_t r8) {
+    uint8_t value = (r8 << 4) | (r8 >> 4);
+    loadRegister(cpu, oprnd, value);
+
+    cpu.set_flags(cpu.z_flag, value == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag, 0);
+}
+
+void Instruction::SRL_r8(cpu &cpu, int oprnd, uint8_t r8) {
+    uint8_t shift = r8 >> 1;
+    bool oldLSB = r8 & 0x01;
+
+    uint8_t value = shift;
+
+    loadRegister(cpu, oprnd, value);
+
+    cpu.set_flags(cpu.z_flag, value == 0);
+    cpu.set_flags(cpu.n_flag, 0);
+    cpu.set_flags(cpu.h_flag, 0);
+    cpu.set_flags(cpu.c_flag, oldLSB);
+}
+
+void Instruction::BIT_B3_r8(cpu &cpu, uint8_t r8, uint8_t opcode) {
     int u3 = (opcode & 0x38) >> 3;
 
     bool isSet = (r8 >> u3) & 0x01;
-    if(!isSet){
+    if (!isSet) {
         cpu.set_flags(cpu.z_flag, 1);
-    }else{
+    } else {
         cpu.set_flags(cpu.z_flag, 0);
     }
     cpu.set_flags(cpu.n_flag, 0);
     cpu.set_flags(cpu.h_flag, 1);
 }
 
-void Instruction::RES_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
-    int u3 = (opcode & 0x38) >> 3; 
+void Instruction::RES_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode) {
+    int u3 = (opcode & 0x38) >> 3;
 
     uint8_t value = r8 & ~(1 << u3);
 
     loadRegister(cpu, oprnd, value);
 }
 
-void Instruction::SET_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode){
-    int u3 = (opcode & 0x38) >> 3; 
+void Instruction::SET_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode) {
+    int u3 = (opcode & 0x38) >> 3;
 
     uint8_t value = r8 | (1 << u3);
 
-    loadRegister(cpu, oprnd, value);   
+    loadRegister(cpu, oprnd, value);
+}
+
+void Instruction::execute(cpu &cpu) {
+    uint8_t opcode = cpu.opcode;
+
+    switch (opcode) {
+    case 0x00: NOP(); break;
+    case 0x07: RLCA(cpu); break;
+    case 0x08: LD_i16_SP(cpu); break;
+    case 0x0F: RRCA(cpu); break;
+    case 0x10: STOP(cpu); break;
+    case 0x17: RLA(cpu); break;
+    case 0x18: JR_i8(cpu); break;
+    case 0x1F: RRA(cpu); break;
+    case 0x27: DAA(cpu); break;
+    case 0x2F: CPL(cpu); break;
+    case 0x37: SCF(cpu); break;
+    case 0x3F: CCF(cpu); break;
+
+    case 0x76: HALT(cpu); break;
+    case 0xC3: JP_i16(cpu); break;
+    case 0xC6: ADD_A_i8(cpu); break;
+    case 0xC9: RET(cpu); break;
+    case 0xCB: CB_prefix(cpu); break;
+    case 0xCD: CALL_i16(cpu); break;
+    case 0xCE: ADC_A_i8(cpu); break;
+    case 0xD6: SUB_A_i8(cpu); break;
+    case 0xD9: RETI(cpu); break;
+    case 0xDE: SBC_A_i8(cpu); break;
+    case 0xE0: LDH_i8_A(cpu); break;
+    case 0xE2: LDH_C_A(cpu); break;
+    case 0xE6: AND_A_i8(cpu); break;
+    case 0xE8: ADD_SP_i8(cpu); break;
+    case 0xE9: JP_hl(cpu); break;
+    case 0xEA: LD_i16_A(cpu); break;
+    case 0xEE: XOR_A_i8(cpu); break;
+    case 0xF0: LDH_A_i8(cpu); break;
+    case 0xF2: LDH_A_C(cpu); break;
+    case 0xF3: DI(cpu); break;
+    case 0xF6: OR_A_i8(cpu); break;
+    case 0xF8: LD_hl_SPni8(cpu); break;
+    case 0xF9: LD_SP_hl(cpu); break;
+    case 0xFA: LD_A_i16(cpu); break;
+    case 0xFB: EI(cpu); break;
+    case 0xFE: CP_A_i8(cpu); break;
+
+    default: {
+        switch ((opcode & 0xC0) >> 6) {
+        case 0: {
+            switch (opcode & 0x0F) {
+            case 0x01: LD_r16_i16(cpu); break;
+            case 0x02: LD_r16m_a(cpu); break;
+            case 0x03: INC_r16(cpu); break;
+            case 0x09: ADD_hl_r16(cpu); break;
+            case 0x0A: LD_a_r16m(cpu); break;
+            case 0x0B: DEC_r16(cpu); break;
+            default: {
+                switch (opcode & 0x07) {
+                case 0x0: JR_cond_i8(cpu); break;
+                case 0x4: INC_r8(cpu); break;
+                case 0x5: DEC_r8(cpu); break;
+                case 0x6: LD_r8_i8(cpu); break;
+                default: break;
+                }
+            }; break;
+            }
+        }; break;
+        case 1: LD_r8_r8(cpu); break;
+        case 2: {
+            switch (opcode & 0xF8) {
+            case 0x80: ADD_A_r8(cpu); break;
+            case 0x81: ADC_A_r8(cpu); break;
+            case 0x90: SUB_A_r8(cpu); break;
+            case 0x91: SBC_A_r8(cpu); break;
+            case 0xA0: AND_A_r8(cpu); break;
+            case 0xA1: XOR_A_r8(cpu); break;
+            case 0xB0: OR_A_r8(cpu); break;
+            case 0xB1: CP_A_r8(cpu); break;
+            default: break;
+            }
+        }; break;
+        case 3: {
+            switch (opcode & 0x07) {
+            case 0x0: RET_COND(cpu); break;
+            case 0x1: POP_r16stk(cpu); break;
+            case 0x2: JP_COND_i16(cpu); break;
+            case 0x4: CALL_COND_i16(cpu); break;
+            case 0x5: PUSH_r16stk(cpu); break;
+            case 0x7: RST_TGT3(cpu); break;
+            default: break;
+            }
+        }; break;
+        };
+        break;
+
+    }; break;
+    }
 }

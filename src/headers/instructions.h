@@ -110,4 +110,7 @@ class Instruction{
     void SET_b3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
 
 
+
+    void execute(cpu& cpu);
+
 };
