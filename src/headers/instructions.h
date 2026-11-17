@@ -3,99 +3,96 @@
 #include <cstdint>
 class cpu;
 
-class Instruction{
-    public:
+class Instruction {
+  public:
+    // helper
+    void loadRegisterPair(cpu &cpu, int dst, uint16_t value);
+    void loadRegister(cpu &cpu, int dst, uint8_t value);
+    bool checkCond(cpu &cpu, int cond);
+    uint8_t get_r8(cpu &cpu, int dst);
+    uint16_t pop16(cpu &cpu);
+    void push16(cpu &cpu, uint16_t value);
 
+    void NOP() {};
 
+    void LD_r16_i16(cpu &cpu);
+    void LD_r16m_a(cpu &cpu);
+    void LD_a_r16m(cpu &cpu);
+    void LD_i16_SP(cpu &cpu);
 
-    //helper
-    void loadRegisterPair(cpu& cpu,int dst, uint16_t value);
-    void loadRegister(cpu& cpu,int dst, uint8_t value);
-    bool checkCond(cpu& cpu, int cond);
-    uint8_t get_r8(cpu& cpu, int dst);
-    uint16_t pop16(cpu& cpu);
-    void push16(cpu& cpu, uint16_t value);
+    void INC_r16(cpu &cpu);
+    void DEC_r16(cpu &cpu);
+    void ADD_hl_r16(cpu &cpu);
 
-    void NOP(){};
+    void INC_r8(cpu &cpu);
+    void DEC_r8(cpu &cpu);
 
-    void LD_r16_i16(cpu& cpu);
-    void LD_r16m_a(cpu& cpu);
-    void LD_a_r16m(cpu& cpu);
-    void LD_i16_SP(cpu& cpu);
+    void LD_r8_i8(cpu &cpu);
 
-    void INC_r16(cpu& cpu);
-    void DEC_r16(cpu& cpu);
-    void ADD_hl_r16(cpu& cpu);
+    void RLCA(cpu &cpu);
+    void RRCA(cpu &cpu);
+    void RLA(cpu &cpu);
+    void RRA(cpu &cpu);
+    void DAA(cpu &cpu);
+    void CPL(cpu &cpu);
+    void SCF(cpu &cpu);
+    void CCF(cpu &cpu);
 
-    void INC_r8(cpu& cpu);
-    void DEC_r8(cpu& cpu);
+    void JR_i8(cpu &cpu);
+    void JR_cond_i8(cpu &cpu);
 
-    void LD_r8_i8(cpu& cpu);
+    void STOP(cpu &cpu);
 
-    void RLCA(cpu& cpu);
-    void RRCA(cpu& cpu);
-    void RLA(cpu& cpu);
-    void RRA(cpu& cpu);
-    void DAA(cpu& cpu);
-    void CPL(cpu& cpu);
-    void SCF(cpu& cpu);
-    void CCF(cpu& cpu);
+    void LD_r8_r8(cpu &cpu);
+    void HALT(cpu &cpu);
 
-    void JR_i8(cpu& cpu);
-    void JR_cond_i8(cpu& cpu);
+    void ADD_A_r8(cpu &cpu);
+    void ADC_A_r8(cpu &cpu);
+    void SUB_A_r8(cpu &cpu);
+    void SBC_A_r8(cpu &cpu);
+    void AND_A_r8(cpu &cpu);
+    void XOR_A_r8(cpu &cpu);
+    void OR_A_r8(cpu &cpu);
+    void CP_A_r8(cpu &cpu);
 
-    void STOP(cpu& cpu);
+    void ADD_A_i8(cpu &cpu);
+    void ADC_A_i8(cpu &cpu);
+    void SUB_A_i8(cpu &cpu);
+    void SBC_A_i8(cpu &cpu);
+    void AND_A_i8(cpu &cpu);
+    void XOR_A_i8(cpu &cpu);
+    void OR_A_i8(cpu &cpu);
+    void CP_A_i8(cpu &cpu);
 
-    void LD_r8_r8(cpu& cpu);
-    void HALT(cpu& cpu);
+    void RET_COND(cpu &cpu);
+    void RET(cpu &cpu);
+    void RETI(cpu &cpu);
+    void JP_COND_i16(cpu &cpu);
+    void JP_i16(cpu &cpu);
+    void JP_hl(cpu &cpu);
+    void CALL_COND_i16(cpu &cpu);
+    void CALL_i16(cpu &cpu);
+    void RST_TGT3(cpu &cpu);
 
-    void ADD_A_r8(cpu& cpu);
-    void ADC_A_r8(cpu& cpu);
-    void SUB_A_r8(cpu& cpu);
-    void SBC_A_r8(cpu& cpu);
-    void AND_A_r8(cpu& cpu);
-    void XOR_A_r8(cpu& cpu);
-    void OR_A_r8(cpu& cpu);
-    void CP_A_r8(cpu& cpu);
+    void POP_r16stk(cpu &cpu);
+    void PUSH_r16stk(cpu &cpu);
 
-    void ADD_A_i8(cpu& cpu);
-    void ADC_A_i8(cpu& cpu);
-    void SUB_A_i8(cpu& cpu);
-    void SBC_A_i8(cpu& cpu);
-    void AND_A_i8(cpu& cpu);
-    void XOR_A_i8(cpu& cpu);
-    void OR_A_i8(cpu& cpu);
-    void CP_A_i8(cpu& cpu);
+    void LDH_C_A(cpu &cpu);
+    void LDH_i8_A(cpu &cpu);
+    void LD_i16_A(cpu &cpu);
+    void LDH_A_C(cpu &cpu);
+    void LDH_A_i8(cpu &cpu);
+    void LD_A_i16(cpu &cpu);
 
-    void RET_COND(cpu& cpu);
-    void RET(cpu& cpu);
-    void RETI(cpu& cpu);
-    void JP_COND_i16(cpu& cpu);
-    void JP_i16(cpu& cpu);
-    void JP_hl(cpu& cpu);
-    void CALL_COND_i16(cpu& cpu);
-    void CALL_i16(cpu& cpu);
-    void RST_TGT3(cpu& cpu);
+    void ADD_SP_i8(cpu &cpu);
+    void LD_hl_SPni8(cpu &cpu);
+    void LD_SP_hl(cpu &cpu);
 
-    void POP_r16stk(cpu& cpu);
-    void PUSH_r16stk(cpu& cpu);
+    void DI(cpu &cpu);
+    void EI(cpu &cpu);
 
-    void LDH_C_A(cpu& cpu);
-    void LDH_i8_A(cpu& cpu);
-    void LD_i16_A(cpu& cpu);
-    void LDH_A_C(cpu& cpu);
-    void LDH_A_i8(cpu& cpu);
-    void LD_A_i16(cpu& cpu);
-
-    void ADD_SP_i8(cpu& cpu);
-    void LD_hl_SPni8(cpu& cpu);
-    void LD_SP_hl(cpu& cpu);
-
-    void DI(cpu& cpu);
-    void EI(cpu& cpu);
-
-    //CB prefix instruction
-    void CB_prefix(cpu& cpu);
+    // CB prefix instruction
+    void CB_prefix(cpu &cpu);
     void RLC_r8(cpu &cpu, int oprnd, uint8_t r8);
     void RRC_r8(cpu &cpu, int oprnd, uint8_t r8);
     void RL_r8(cpu &cpu, int oprnd, uint8_t r8);
@@ -103,14 +100,13 @@ class Instruction{
     void SLA_r8(cpu &cpu, int oprnd, uint8_t r8);
     void SRA_r8(cpu &cpu, int oprnd, uint8_t r8);
     void SWAP_r8(cpu &cpu, int oprnd, uint8_t r8);
-    void SRL_r8(cpu& cpu, int oprnd, uint8_t r8);
+    void SRL_r8(cpu &cpu, int oprnd, uint8_t r8);
 
-    void BIT_B3_r8(cpu& cpu,uint8_t r8, uint8_t opcode);
-    void RES_b3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
-    void SET_b3_r8(cpu& cpu, int oprnd, uint8_t r8, uint8_t opcode);
+    void BIT_B3_r8(cpu &cpu, uint8_t r8, uint8_t opcode);
+    void RES_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode);
+    void SET_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode);
 
+    void InvalidOpcode(cpu &cpu);
 
-
-    void execute(cpu& cpu);
-
+    void execute(cpu &cpu);
 };

@@ -2,6 +2,7 @@
 #include "../headers/instructions.h"
 #include "../headers/cpu.h"
 #include <cstdint>
+#include <iostream>
 
 void Instruction::loadRegisterPair(cpu &cpu, int dst, uint16_t value) {
     switch (dst) {
@@ -967,6 +968,14 @@ void Instruction::SET_b3_r8(cpu &cpu, int oprnd, uint8_t r8, uint8_t opcode) {
     loadRegister(cpu, oprnd, value);
 }
 
+void Instruction::InvalidOpcode(cpu &cpu) {
+    uint16_t memory = cpu.PC - 1;
+    uint8_t opcode = cpu.mem.read(memory);
+    std::cerr << "Reached a Invalid opcode : 0x" << std::hex << static_cast<int>(opcode) << "At address : 0x"
+              << std::hex << memory << std::endl;
+    std::exit(1);
+}
+
 void Instruction::execute(cpu &cpu) {
     uint8_t opcode = cpu.opcode;
 
@@ -1010,6 +1019,18 @@ void Instruction::execute(cpu &cpu) {
     case 0xFA: LD_A_i16(cpu); break;
     case 0xFB: EI(cpu); break;
     case 0xFE: CP_A_i8(cpu); break;
+
+    case 0xD3: InvalidOpcode(cpu); break;
+    case 0xDB: InvalidOpcode(cpu); break;
+    case 0xDD: InvalidOpcode(cpu); break;
+    case 0xE3: InvalidOpcode(cpu); break;
+    case 0xE4: InvalidOpcode(cpu); break;
+    case 0xEB: InvalidOpcode(cpu); break;
+    case 0xEC: InvalidOpcode(cpu); break;
+    case 0xED: InvalidOpcode(cpu); break;
+    case 0xF4: InvalidOpcode(cpu); break;
+    case 0xFC: InvalidOpcode(cpu); break;
+    case 0xFD: InvalidOpcode(cpu); break;
 
     default: {
         switch ((opcode & 0xC0) >> 6) {
@@ -1059,7 +1080,6 @@ void Instruction::execute(cpu &cpu) {
         }; break;
         };
         break;
-
     }; break;
     }
 }
