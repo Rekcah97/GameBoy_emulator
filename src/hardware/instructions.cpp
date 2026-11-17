@@ -1048,7 +1048,7 @@ void Instruction::execute(cpu &cpu) {
                 case 0x4: INC_r8(cpu); break;
                 case 0x5: DEC_r8(cpu); break;
                 case 0x6: LD_r8_i8(cpu); break;
-                default: break;
+                default: InvalidOpcode(cpu); break;
                 }
             }; break;
             }
@@ -1064,7 +1064,7 @@ void Instruction::execute(cpu &cpu) {
             case 0xA8: XOR_A_r8(cpu); break;
             case 0xB0: OR_A_r8(cpu); break;
             case 0xB8: CP_A_r8(cpu); break;
-            default: break;
+            default: InvalidOpcode(cpu); break;
             }
         }; break;
         case 3: {
@@ -1075,7 +1075,7 @@ void Instruction::execute(cpu &cpu) {
             case 0x4: CALL_COND_i16(cpu); break;
             case 0x5: PUSH_r16stk(cpu); break;
             case 0x7: RST_TGT3(cpu); break;
-            default: break;
+            default: InvalidOpcode(cpu); break;
             }
         }; break;
         };
