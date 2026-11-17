@@ -1057,13 +1057,13 @@ void Instruction::execute(cpu &cpu) {
         case 2: {
             switch (opcode & 0xF8) {
             case 0x80: ADD_A_r8(cpu); break;
-            case 0x81: ADC_A_r8(cpu); break;
+            case 0x88: ADC_A_r8(cpu); break;
             case 0x90: SUB_A_r8(cpu); break;
-            case 0x91: SBC_A_r8(cpu); break;
+            case 0x98: SBC_A_r8(cpu); break;
             case 0xA0: AND_A_r8(cpu); break;
-            case 0xA1: XOR_A_r8(cpu); break;
+            case 0xA8: XOR_A_r8(cpu); break;
             case 0xB0: OR_A_r8(cpu); break;
-            case 0xB1: CP_A_r8(cpu); break;
+            case 0xB8: CP_A_r8(cpu); break;
             default: break;
             }
         }; break;
