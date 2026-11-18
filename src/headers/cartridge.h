@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../headers/cpu.h"
+#include <cstdint>
 
 class cpu;
 
@@ -11,5 +12,6 @@ class cartridge {
 
     void print_info(cpu &cpu);
 
-    const char *cartridge_type(uint16_t code);
+    const char *cartridge_type(uint8_t code);
+    const char *new_lic(uint16_t code);
 };

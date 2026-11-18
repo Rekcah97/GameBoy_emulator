@@ -1,22 +1,25 @@
-#include <cstdint>
+
 #include <iostream>
 
+#include "src/headers/cartridge.h"
 #include "src/headers/cpu.h"
-#include "src/headers/bus.h"
 
 using namespace std;
 
-int main (){
-    cout << "gameboy emulator" << endl;
+int main(int argc, char **argv) {
+    cout << "***Gameboy emulator***" << endl;
 
+    if (argc < 2) {
+        cerr << "gameboy rom not found " << endl;
+        return 1;
+    }
     cpu emu;
-    bus b;
 
-    b.write(0xFFFF,0x78);
-
-    uint8_t test = b.read(0xFFFF);
-    cout << "this is test 0x" << hex<< static_cast<int>(test)<< endl;
+    cartridge file;
+    if (!file.loadRom(emu, argv[1])) {
+        cerr << "failed to load gameboy rom" << endl;
+        return 1;
+    }
 
     return 0;
-    
 }
